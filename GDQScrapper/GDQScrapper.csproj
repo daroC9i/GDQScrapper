@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Web\" />
+    <Folder Include="Web\Actions\" />
+    <Folder Include="Web\Domain\" />
+    <Folder Include="Web\Infrastructure\" />
+    <Folder Include="HtmlDataExtractor\" />
+    <Folder Include="HtmlDataExtractor\Actions\" />
+    <Folder Include="HtmlDataExtractor\Domain\" />
+    <Folder Include="Displayer\" />
+    <Folder Include="Displayer\Actions\" />
+    <Folder Include="Displayer\Domain\" />
+    <Folder Include="Displayer\Infrastructure\" />
+    <Folder Include="Core\" />
+    <Folder Include="Core\Domain\" />
+    <Folder Include="Core\Domain\EventData\" />
+    <Folder Include="HtmlDataExtractor\Domain\Extensions\" />
+    <Folder Include="Core\Infrastructure\" />
+    <Folder Include="Export\" />
+    <Folder Include="Export\Actions\" />
+    <Folder Include="Export\Domain\" />
+    <Folder Include="Export\Infrastructure\" />
+    <Folder Include="HtmlDataExtractor\Domain\Extractors\" />
+  </ItemGroup>
+</Project>
