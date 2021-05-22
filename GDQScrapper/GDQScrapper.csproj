@@ -20,12 +20,13 @@
     <Folder Include="Core\" />
     <Folder Include="Core\Domain\" />
     <Folder Include="Core\Domain\EventData\" />
-    <Folder Include="HtmlDataExtractor\Domain\Extensions\" />
     <Folder Include="Core\Infrastructure\" />
     <Folder Include="Export\" />
     <Folder Include="Export\Actions\" />
     <Folder Include="Export\Domain\" />
     <Folder Include="Export\Infrastructure\" />
-    <Folder Include="HtmlDataExtractor\Domain\Extractors\" />
+    <Folder Include="HtmlDataExtractor\Infrastructure\" />
+    <Folder Include="HtmlDataExtractor\Infrastructure\Services\" />
+    <Folder Include="HtmlDataExtractor\Infrastructure\Services\Extensions\" />
   </ItemGroup>
 </Project>
