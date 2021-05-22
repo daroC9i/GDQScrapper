@@ -6,40 +6,38 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
 {
     public class HtmlEventExtractorService : IHtmlEventExtractorService
     {
-        public Event CreateEvent(string dataRow)
+        string dataRaw;
+
+        public Event CreateEvent(string eventDataRaw)
         {
-            var row = dataRow;
+            dataRaw = eventDataRaw;
 
-            // StartTime
-            var startTime = new StartEventDateTime(Normalize(row.ExtractFirstWithTag("td")));
-            row = row.RemoveFirstTag("td");
+            var startEventDateTime = new StartEventDateTime(ExtractFirstRow());
 
-            // Run
-            var game = new Game(Normalize(row.ExtractFirstWithTag("td")));
-            row = row.RemoveFirstTag("td");
+            var game = new Game(ExtractFirstRow());
 
-            // Runner
-            var runner = new Runner(Normalize(row.ExtractFirstWithTag("td")));
-            row = row.RemoveFirstTag("td");
+            var runner = new Runner(ExtractFirstRow());
 
-            // SetupTime
-            var setupLenght = new SetupLenghtDuration(Normalize(row.ExtractFirstWithTag("td")));
-            row = row.RemoveFirstTag("td");
+            var setupLenghtDuration = new SetupLenghtDuration(ExtractFirstRow());
 
-            // Duration
-            var duration = new EventDuration(Normalize(row.ExtractFirstWithTag("td")));
-            row = row.RemoveFirstTag("td");
+            var eventDuration = new EventDuration(ExtractFirstRow());
 
-            // Condition
-            var condition = new Condition(Normalize(row.ExtractFirstWithTag("td")));
-            row = row.RemoveFirstTag("td");
+            var condition = new Condition(ExtractFirstRow());
 
-            // Host
-            var host = new Host(Normalize(row.ExtractFirstWithTag("td")));
+            var host = new Host(ExtractFirstRow());
 
-            var endTime = new EndEventDateTime(startTime.DateTime.Add(duration.TimeSpan));
+            var endTime = new EndEventDateTime(startEventDateTime.DateTime.Add(eventDuration.TimeSpan));
 
-            return new Event(startTime, game, runner, setupLenght, duration, endTime, condition, host);
+            return new Event(startEventDateTime, game, runner, setupLenghtDuration, eventDuration, endTime, condition, host);
+        }
+
+        private string ExtractFirstRow()
+        {
+            var row = dataRaw.ExtractFirstRowWithTag("td");
+            var normalizedRow = Normalize(row);
+            dataRaw = dataRaw.RemoveFirstTag("td");
+
+            return normalizedRow;
         }
 
         private string Normalize(string dataRow)

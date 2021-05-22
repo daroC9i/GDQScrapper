@@ -32,7 +32,7 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor.Extensions
             }
         }
 
-        public static string ExtractFirstWithTag(this string value, string tag)
+        public static string ExtractFirstRowWithTag(this string value, string tag)
         {
             tag = tag.ToLower();
             string startTag = "<" + tag;
