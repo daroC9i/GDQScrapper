@@ -11,7 +11,7 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
             var row = dataRow;
 
             // StartTime
-            var startTime = new StartDateTime(Normalize(row.ExtractFirstWithTag("td")));
+            var startTime = new StartEventDateTime(Normalize(row.ExtractFirstWithTag("td")));
             row = row.RemoveFirstTag("td");
 
             // Run
@@ -23,11 +23,11 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
             row = row.RemoveFirstTag("td");
 
             // SetupTime
-            var setupLenght = new SetupLenght(Normalize(row.ExtractFirstWithTag("td")));
+            var setupLenght = new SetupLenghtDuration(Normalize(row.ExtractFirstWithTag("td")));
             row = row.RemoveFirstTag("td");
 
             // Duration
-            var duration = new Duration(Normalize(row.ExtractFirstWithTag("td")));
+            var duration = new EventDuration(Normalize(row.ExtractFirstWithTag("td")));
             row = row.RemoveFirstTag("td");
 
             // Condition
@@ -37,7 +37,7 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
             // Host
             var host = new Host(Normalize(row.ExtractFirstWithTag("td")));
 
-            var endTime = new EndDateTime(startTime.DateTime.Add(duration.TimeSpan));
+            var endTime = new EndEventDateTime(startTime.DateTime.Add(duration.TimeSpan));
 
             return new Event(startTime, game, runner, setupLenght, duration, endTime, condition, host);
         }

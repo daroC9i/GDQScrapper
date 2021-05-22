@@ -4,22 +4,22 @@ namespace GDQScrapper.Core.Domain
 {
     public class Event
     {
-        public StartDateTime StartDateTime { get; }
-        public EndDateTime EndDateTime { get; }
+        public StartEventDateTime StartDateTime { get; }
+        public EndEventDateTime EndDateTime { get; }
         public Game Game { get; }
         public Runner Runners { get; }
-        public SetupLenght SetupLenght { get; }
+        public SetupLenghtDuration SetupLenght { get; }
         public Duration Duration { get; }
         public Condition Condition { get; }
         public Host Host { get; }
 
         public Event(
-            StartDateTime startDateTime,
+            StartEventDateTime startDateTime,
             Game game,
             Runner runners,
-            SetupLenght setupLenght,
+            SetupLenghtDuration setupLenght,
             Duration duration,
-            EndDateTime endDateTime,
+            EndEventDateTime endDateTime,
             Condition condition,
             Host host)
         {

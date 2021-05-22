@@ -2,7 +2,7 @@
 
 namespace GDQScrapper.Core.Domain.EventData
 {
-    public class Duration
+    public abstract class Duration
     {
         private string duration;
 
