@@ -9,7 +9,7 @@ namespace GDQScrapper.Core.Domain
         public Game Game { get; }
         public Runner Runners { get; }
         public SetupLenghtDuration SetupLenght { get; }
-        public Duration Duration { get; }
+        public EventDuration EventDuration { get; }
         public Condition Condition { get; }
         public Host Host { get; }
 
@@ -18,7 +18,7 @@ namespace GDQScrapper.Core.Domain
             Game game,
             Runner runners,
             SetupLenghtDuration setupLenght,
-            Duration duration,
+            EventDuration eventDuration,
             EndEventDateTime endDateTime,
             Condition condition,
             Host host)
@@ -29,7 +29,7 @@ namespace GDQScrapper.Core.Domain
             Runners = runners;
             Host = host;
             SetupLenght = setupLenght;
-            Duration = duration;
+            EventDuration = eventDuration;
             Game = game;
         }
     }

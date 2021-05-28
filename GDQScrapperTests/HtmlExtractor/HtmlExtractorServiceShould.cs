@@ -67,7 +67,7 @@ namespace Tests.HtmlExtractor
             Assert.AreEqual("Just Cause 3", result[0].Game.ToString());
             Assert.AreEqual("pmcTRILOGY", result[0].Runners.ToString());
             Assert.AreEqual("0:12:00", result[0].SetupLenght.ToString());
-            Assert.AreEqual("0:52:00", result[0].Duration.ToString());
+            Assert.AreEqual("0:52:00", result[0].EventDuration.ToString());
             Assert.AreEqual("Sky Fortress DLC - PC", result[0].Condition.ToString());
             Assert.AreEqual("Asuka424", result[0].Host.ToString());
         }
@@ -135,7 +135,7 @@ namespace Tests.HtmlExtractor
             Assert.AreEqual("Just Cause 3", result[0].Game.ToString());
             Assert.AreEqual("pmcTRILOGY", result[0].Runners.ToString());
             Assert.AreEqual("0:12:00", result[0].SetupLenght.ToString());
-            Assert.AreEqual("0:52:00", result[0].Duration.ToString());
+            Assert.AreEqual("0:52:00", result[0].EventDuration.ToString());
             Assert.AreEqual("Sky Fortress DLC - PC", result[0].Condition.ToString());
             Assert.AreEqual("Asuka424", result[0].Host.ToString());
 
@@ -144,7 +144,7 @@ namespace Tests.HtmlExtractor
             Assert.AreEqual("Sonic 3: Angel Island Revisited", result[1].Game.ToString());
             Assert.AreEqual("Zaxon96", result[1].Runners.ToString());
             Assert.AreEqual("0:10:00", result[1].SetupLenght.ToString());
-            Assert.AreEqual("0:42:00", result[1].Duration.ToString());
+            Assert.AreEqual("0:42:00", result[1].EventDuration.ToString());
             Assert.AreEqual("Any% Sonic + Tails - PC", result[1].Condition.ToString());
             Assert.AreEqual("iggyzig", result[1].Host.ToString());
         }

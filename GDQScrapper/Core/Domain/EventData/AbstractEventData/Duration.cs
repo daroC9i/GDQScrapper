@@ -19,5 +19,16 @@ namespace GDQScrapper.Core.Domain.EventData
         {
             return duration;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Duration duration &&
+                   TimeSpan.Equals(duration.TimeSpan);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(TimeSpan);
+        }
     }
 }

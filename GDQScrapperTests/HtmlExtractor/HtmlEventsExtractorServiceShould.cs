@@ -1,4 +1,7 @@
-﻿using GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor;
+﻿using System;
+using System.Globalization;
+using GDQScrapper.Core.Domain.EventData;
+using GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor;
 using NUnit.Framework;
 
 namespace Tests.HtmlExtractor
@@ -7,14 +10,13 @@ namespace Tests.HtmlExtractor
     {
         private HtmlEventExtractorService htmlEventsExtractorService;
 
-        private static string SimpleRAW =
-                "<td>2021-01-03T16:30:00Z</td>" +
-                "<td>Game</td>" +
-                "<td>Runner</td>" +
-                "<td>0:10:00</td>" +
-                "<td>0:20:00</td>" +
-                "<td>Condition</td>" +
-                "<td>host</td>";
+        private readonly string SomeDate = "<td>2021-01-03T10:30:00Z</td>";
+        private readonly string SomeGameName = "<td>Game</td>";
+        private readonly string SomeRunnerName = "<td>Runner</td>";
+        private readonly string SomeEventDuration = "<td>0:10:00</td>";
+        private readonly string SomeSetupDuration = "<td>0:20:00</td>";
+        private readonly string SomeCondition = "<td>Condition</td>";
+        private readonly string SomeHostName = "<td>host</td>";
 
         private static string ComplexRAW =
                "<td class='start - time text - right'>2021-01-03T19:05:00Z</td>" +
@@ -34,18 +36,31 @@ namespace Tests.HtmlExtractor
         [Test]
         public void Create_Simple_Event()
         {
+            var expectedStartDateTime = CreateExpectedDateTime("2021-01-03 10:30:00Z");
+            var expectedEndDateTime = CreateExpectedDateTime("2021-01-03 10:50:00Z");
+            var expectedGameName = "Game";
+            var expectedRunnerName = "Runner";
+            var expectedSetupLenghtDuration = new SetupLenghtDuration("0:10:00");
+            var expectedEventDuration = new EventDuration("0:20:00");
+            var expectedCondition = "Condition";
+            var expectedHostName = "host";
+
+            // Given
+            string simpleEvent = string.Concat(new [] {SomeDate, SomeGameName, SomeRunnerName,
+                SomeEventDuration, SomeSetupDuration, SomeCondition, SomeHostName});
+
             // When
-            var result = htmlEventsExtractorService.CreateEvent(SimpleRAW);
+            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
 
             // Then
-            Assert.AreEqual("2021-01-03 13:30:00", result.StartDateTime.ToString());
-            Assert.AreEqual("2021-01-03 13:50:00", result.EndDateTime.ToString());
-            Assert.AreEqual("Game", result.Game.ToString());
-            Assert.AreEqual("Runner", result.Runners.ToString());
-            Assert.AreEqual("0:10:00", result.SetupLenght.ToString());
-            Assert.AreEqual("0:20:00", result.Duration.ToString());
-            Assert.AreEqual("Condition", result.Condition.ToString());
-            Assert.AreEqual("host", result.Host.ToString());
+            Assert.AreEqual(expectedStartDateTime, result.StartDateTime.DateTime);
+            Assert.AreEqual(expectedEndDateTime, result.EndDateTime.DateTime);
+            Assert.AreEqual(expectedGameName, result.Game.ToString());
+            Assert.AreEqual(expectedRunnerName, result.Runners.ToString());
+            Assert.AreEqual(expectedSetupLenghtDuration, result.SetupLenght);
+            Assert.AreEqual(expectedEventDuration, result.EventDuration);
+            Assert.AreEqual(expectedCondition, result.Condition.ToString());
+            Assert.AreEqual(expectedHostName, result.Host.ToString());
         }
 
         [Test]
@@ -60,9 +75,14 @@ namespace Tests.HtmlExtractor
             Assert.AreEqual("Just Cause 3", result.Game.ToString());
             Assert.AreEqual("pmcTRILOGY", result.Runners.ToString());
             Assert.AreEqual("0:12:00", result.SetupLenght.ToString());
-            Assert.AreEqual("0:52:00", result.Duration.ToString());
+            Assert.AreEqual("0:52:00", result.EventDuration.ToString());
             Assert.AreEqual("Sky Fortress DLC &mdash; PC", result.Condition.ToString());
             Assert.AreEqual("Asuka424", result.Host.ToString());
+        }
+
+        private DateTime CreateExpectedDateTime(string data)
+        {
+            return DateTime.ParseExact(data, "yyyy-MM-dd HH:mm:ssZ", CultureInfo.InvariantCulture);
         }
     }
 }

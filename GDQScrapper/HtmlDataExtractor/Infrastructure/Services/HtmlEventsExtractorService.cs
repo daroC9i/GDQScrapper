@@ -24,6 +24,8 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
 
             var condition = new Condition(ExtractFirstRow());
 
+            // + Add Game Platform
+
             var host = new Host(ExtractFirstRow());
 
             var endTime = new EndEventDateTime(startEventDateTime.DateTime.Add(eventDuration.TimeSpan));

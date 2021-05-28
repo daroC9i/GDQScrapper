@@ -70,7 +70,7 @@ namespace GDQScrapper.Export.Domain
             stringBuilder.Append(SEPARATOR);
             stringBuilder.Append(@event.StartDateTime.ToString());
             stringBuilder.Append(SEPARATOR);
-            stringBuilder.Append(@event.Duration.ToString());
+            stringBuilder.Append(@event.EventDuration.ToString());
             stringBuilder.Append(SEPARATOR);
             stringBuilder.Append(@event.EndDateTime.ToString());
             stringBuilder.Append(SEPARATOR);

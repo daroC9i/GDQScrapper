@@ -21,7 +21,7 @@ namespace GDQScrapper.GDQProcessor.Domain.Displayer
             Console.WriteLine("--- " + eventData.Game.ToString() + " ( " + eventData.Condition.ToString() + " )" + " ---");
             Console.WriteLine("StartDateTime: " + eventData.StartDateTime.ToString());
             Console.WriteLine("Setup: " + eventData.SetupLenght.ToString());
-            Console.WriteLine("Duration: " + eventData.Duration.ToString());
+            Console.WriteLine("Duration: " + eventData.EventDuration.ToString());
             Console.WriteLine("Duration: " + eventData.Condition.ToString());
 
             Console.WriteLine("");
