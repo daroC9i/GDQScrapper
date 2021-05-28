@@ -11,6 +11,7 @@ namespace GDQScrapper.Core.Domain
         public SetupLenghtDuration SetupLenght { get; }
         public EventDuration EventDuration { get; }
         public Condition Condition { get; }
+        public GamePlatform GamePlatform { get; }
         public Host Host { get; }
 
         public Event(
@@ -21,11 +22,13 @@ namespace GDQScrapper.Core.Domain
             EventDuration eventDuration,
             EndEventDateTime endDateTime,
             Condition condition,
+            GamePlatform gamePlatform,
             Host host)
         {
             StartDateTime = startDateTime;
             EndDateTime = endDateTime;
             Condition = condition;
+            GamePlatform = gamePlatform;
             Runners = runners;
             Host = host;
             SetupLenght = setupLenght;

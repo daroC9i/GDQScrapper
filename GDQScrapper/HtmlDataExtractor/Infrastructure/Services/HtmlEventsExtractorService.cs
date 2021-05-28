@@ -22,15 +22,20 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
 
             var eventDuration = new EventDuration(ExtractFirstRow());
 
-            var condition = new Condition(ExtractFirstRow());
 
-            // + Add Game Platform
+            var conditionAndPlatform = ExtractFirstRow().Split('—');
+
+            var condition = new Condition(conditionAndPlatform[0].Trim());
+
+            var gamePlatform = new GamePlatform(conditionAndPlatform[1].Trim());
+
+
 
             var host = new Host(ExtractFirstRow());
 
             var endTime = new EndEventDateTime(startEventDateTime.DateTime.Add(eventDuration.TimeSpan));
 
-            return new Event(startEventDateTime, game, runner, setupLenghtDuration, eventDuration, endTime, condition, host);
+            return new Event(startEventDateTime, game, runner, setupLenghtDuration, eventDuration, endTime, condition, gamePlatform, host);
         }
 
         private string ExtractFirstRow()

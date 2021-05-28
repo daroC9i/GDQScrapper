@@ -11,5 +11,9 @@ namespace GDQScrapper.Core.Domain.EventData
             Platform = platform;
         }
 
+        public override string ToString()
+        {
+            return Platform;
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace GDQScrapper.GDQProcessor.Domain
                 .Replace("\n", "")
                 .Replace("\r", "")
                 .Replace("\t", "")
-                .Replace("&mdash;","-")
+                .Replace("&mdash;","—")
                 .Replace("&#039;", "'")
                 .Replace("&amp;", "&")
                 .RemoveSpacesBetweenBrackets();

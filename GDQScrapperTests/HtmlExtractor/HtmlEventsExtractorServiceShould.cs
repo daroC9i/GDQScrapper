@@ -15,7 +15,7 @@ namespace Tests.HtmlExtractor
         private readonly string SomeRunnerName = "<td>Runner</td>";
         private readonly string SomeEventDuration = "<td>0:10:00</td>";
         private readonly string SomeSetupDuration = "<td>0:20:00</td>";
-        private readonly string SomeCondition = "<td>Condition</td>";
+        private readonly string SomeConditionAndPlatform = "<td>Condition — Platform</td>";
         private readonly string SomeHostName = "<td>host</td>";
 
         private static string ComplexRAW =
@@ -24,7 +24,7 @@ namespace Tests.HtmlExtractor
                "<td> pmcTRILOGY</td>" +
                "<td rowspan = '2' class='visible-lg text-center'> <i class='fa fa-clock-o text-gdq-red' aria-hidden='true'></i> 0:12:00 </td>" +
                "<td class='text-right'> <i class='fa fa-clock-o' aria-hidden='true'></i> 0:52:00 </td>" +
-               "<td>Sky Fortress DLC &mdash; PC</td>" +
+               "<td>Sky Fortress DLC — PC</td>" +
                "<td><i class='fa fa-microphone'></i> Asuka424</td>";
 
         [SetUp]
@@ -47,7 +47,7 @@ namespace Tests.HtmlExtractor
 
             // Given
             string simpleEvent = string.Concat(new [] {SomeDate, SomeGameName, SomeRunnerName,
-                SomeEventDuration, SomeSetupDuration, SomeCondition, SomeHostName});
+                SomeEventDuration, SomeSetupDuration, SomeConditionAndPlatform, SomeHostName});
 
             // When
             var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
@@ -76,7 +76,8 @@ namespace Tests.HtmlExtractor
             Assert.AreEqual("pmcTRILOGY", result.Runners.ToString());
             Assert.AreEqual("0:12:00", result.SetupLenght.ToString());
             Assert.AreEqual("0:52:00", result.EventDuration.ToString());
-            Assert.AreEqual("Sky Fortress DLC &mdash; PC", result.Condition.ToString());
+            Assert.AreEqual("Sky Fortress DLC", result.Condition.ToString());
+            Assert.AreEqual("PC", result.GamePlatform.ToString());
             Assert.AreEqual("Asuka424", result.Host.ToString());
         }
 
