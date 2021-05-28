@@ -18,17 +18,14 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
 
             var runner = new Runner(ExtractFirstRow());
 
-            var setupLenghtDuration = new SetupLenghtDuration(ExtractFirstRow());
+            var setupLenghtDuration = new SetupLenghtDuration(NormalizeDuration(ExtractFirstRow()));
 
-            var eventDuration = new EventDuration(ExtractFirstRow());
-
+            var eventDuration = new EventDuration(NormalizeDuration(ExtractFirstRow()));
 
             var conditionAndPlatform = ExtractFirstRow().Split('—');
 
             var condition = new Condition(conditionAndPlatform[0].Trim());
-
             var gamePlatform = new GamePlatform(conditionAndPlatform[1].Trim());
-
 
 
             var host = new Host(ExtractFirstRow());
@@ -36,6 +33,16 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
             var endTime = new EndEventDateTime(startEventDateTime.DateTime.Add(eventDuration.TimeSpan));
 
             return new Event(startEventDateTime, game, runner, setupLenghtDuration, eventDuration, endTime, condition, gamePlatform, host);
+        }
+
+        private string NormalizeDuration(string rawDuration)
+        {
+            rawDuration = rawDuration.Trim();
+
+            if (string.IsNullOrEmpty(rawDuration))
+                rawDuration = "00:00:00";
+
+            return rawDuration;
         }
 
         private string ExtractFirstRow()

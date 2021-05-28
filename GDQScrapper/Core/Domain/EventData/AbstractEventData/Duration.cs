@@ -4,20 +4,17 @@ namespace GDQScrapper.Core.Domain.EventData
 {
     public abstract class Duration
     {
-        private string duration;
-
         public TimeSpan TimeSpan { get; private set; }
+        public bool IsZero { get { return TimeSpan.Seconds == 0; } }
 
         public Duration(string duration)
         {
-            this.duration = duration;
-
             TimeSpan = TimeSpan.Parse(duration);
         }
 
         public override string ToString()
         {
-            return duration;
+            return TimeSpan.ToString(@"hh\:mm\:ss");
         }
 
         public override bool Equals(object obj)

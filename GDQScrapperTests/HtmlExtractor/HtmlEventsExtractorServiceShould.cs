@@ -111,6 +111,23 @@ namespace Tests.HtmlExtractor
         }
 
         [Test]
+        public void Create_Event_With_Two_O_More_Runners_Name()
+        {
+            // Given
+            var expectedRunnerName = "Shockwve, MunchaKoopas, Tokeegee, Traderkirk, Scoobyfoo, BystanderTim";
+            var SomeRunnerNameWithSpaces = "<td> Shockwve, MunchaKoopas, Tokeegee, Traderkirk, Scoobyfoo, BystanderTim </td>";
+
+            string simpleEvent = string.Concat(new[] {SomeStartDate, SomeGameName, SomeRunnerNameWithSpaces,
+                SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatform, SomeHostName});
+
+            // When
+            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+
+            // Then
+            Assert.AreEqual(expectedRunnerName, result.Runners.ToString());
+        }
+
+        [Test]
         public void Create_Event_With_Complex_Data_In_Setup_Leght_Duration()
         {
             // Given
@@ -127,6 +144,26 @@ namespace Tests.HtmlExtractor
 
             // Then
             Assert.AreEqual(expectedSetupLenghtDuration, result.SetupLenght);
+        }
+
+
+        [Test]
+        public void Create_Event_Without_Setup_Leght_Duration()
+        {
+            // Given
+            var expectedSetupLenghtDuration = new SetupLenghtDuration("0:00:00");
+
+            var WithoutSetupLeghtDuration = "<td></td>";
+
+            string simpleEvent = string.Concat(new[] {SomeStartDate, SomeGameName, SomeRunnerName,
+                WithoutSetupLeghtDuration, SomeEventDuration, SomeConditionAndPlatform, SomeHostName});
+
+            // When
+            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+
+            // Then
+            Assert.AreEqual(expectedSetupLenghtDuration, result.SetupLenght);
+            Assert.IsTrue(result.SetupLenght.IsZero);
         }
 
 
@@ -167,6 +204,74 @@ namespace Tests.HtmlExtractor
             // Then
             Assert.AreEqual(expectedCondition, result.Condition.ToString());
             Assert.AreEqual(expectedGamePlatform, result.GamePlatform.ToString());
+        }
+
+        [Test]
+        public void Create_Event_With_Any_Percentage_In_Condition()
+        {
+            // Given
+            var expectedCondition = "Any%";
+            var SomeConditionAndPlatformWithSpaces = "<td> Any% — PC </td>";
+
+            string simpleEvent = string.Concat(new[] {SomeStartDate, SomeGameName, SomeRunnerName,
+                SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatformWithSpaces, SomeHostName});
+
+            // When
+            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+
+            // Then
+            Assert.AreEqual(expectedCondition, result.Condition.ToString());
+        }
+
+        [Test]
+        public void Create_Event_With_Quates_In_Condition()
+        {
+            // Given
+            var expectedCondition = "Stop 'n' Swop";
+            var SomeConditionAndPlatformWithSpaces = "<td> Stop 'n' Swop — N64 </td>";
+
+            string simpleEvent = string.Concat(new[] {SomeStartDate, SomeGameName, SomeRunnerName,
+                SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatformWithSpaces, SomeHostName});
+
+            // When
+            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+
+            // Then
+            Assert.AreEqual(expectedCondition, result.Condition.ToString());
+        }
+
+        [Test]
+        public void Create_Event_With_Complex_In_Condition()
+        {
+            // Given
+            var expectedCondition = "Any%(NTSC-1.0)";
+            var SomeConditionAndPlatformWithSpaces = "<td> Any%(NTSC-1.0) — N64 </td>";
+
+            string simpleEvent = string.Concat(new[] {SomeStartDate, SomeGameName, SomeRunnerName,
+                SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatformWithSpaces, SomeHostName});
+
+            // When
+            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+
+            // Then
+            Assert.AreEqual(expectedCondition, result.Condition.ToString());
+        }
+
+        [Test]
+        public void Create_Event_With_Two_Conditions()
+        {
+            // Given
+            var expectedCondition = "Miriam Any%, MG";
+            var SomeConditionAndPlatformWithSpaces = "<td> Miriam Any%, MG — PC </td>";
+
+            string simpleEvent = string.Concat(new[] {SomeStartDate, SomeGameName, SomeRunnerName,
+                SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatformWithSpaces, SomeHostName});
+
+            // When
+            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+
+            // Then
+            Assert.AreEqual(expectedCondition, result.Condition.ToString());
         }
 
         [Test]
