@@ -22,4 +22,9 @@
   <ItemGroup>
     <ProjectReference Include="..\GDQScrapper\GDQScrapper.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="HTMLExtensionTools">
+      <HintPath>..\GDQScrapper\HTMLExtensionTools.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

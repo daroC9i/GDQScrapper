@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using GDQScrapper.Core.Domain;
 using GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor;
-using GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor.Extensions;
+using HTMLExtensionTools;
 
 namespace GDQScrapper.GDQProcessor.Domain
 {

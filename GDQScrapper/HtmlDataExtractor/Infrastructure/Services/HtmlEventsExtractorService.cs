@@ -1,7 +1,7 @@
 ﻿using GDQScrapper.Core.Domain;
 using GDQScrapper.Core.Domain.EventData;
-using GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor.Extensions;
 using GDQScrapper.HtmlDataExtractor.Domain.Exceptions;
+using HTMLExtensionTools;
 
 namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
 {
@@ -58,16 +58,17 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
 
         private string ExtractFirstRow()
         {
-            var row = dataRaw.ExtractFirstRowWithTag("td");
+            var row = dataRaw.ExtractFirstSingleWithTag("td"); // ExtractFirstSingleWithTag
             var normalizedRow = Normalize(row);
-            dataRaw = dataRaw.RemoveFirstTag("td");
+            dataRaw = dataRaw.RemoveFirstSingleTag("td"); // RemoveFirstSingleTag
 
             return normalizedRow;
         }
 
         private string Normalize(string dataRow)
         {
-            return dataRow.RemoveTag("td").TryRemoveTag("i").RemoveSpacesInFronAndBack();
+            // RemoveSingleOnlyTag + TryRemoveSinleTag + RemoveSpacesInFronAndBack
+            return dataRow.RemoveSingleOnlyTag("td").TryRemoveSinleTag("i").RemoveSpacesInFronAndBack();
         }
     }
 }

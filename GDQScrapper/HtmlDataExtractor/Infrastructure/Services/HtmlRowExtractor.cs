@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor.Extensions;
+using HTMLExtensionTools;
 
 namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
 {
@@ -35,8 +35,8 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
                 var firtsRow = tableBody.Substring(firstRowStartIndex, firstRowlenght);
                 var secondRow = tableBody.Substring(secondRowStartIndex, secondRowlenght);
 
-                firtsRow = firtsRow.RemoveTag("tr");
-                secondRow = secondRow.RemoveTag("tr");
+                firtsRow = firtsRow.RemoveSingleOnlyTag("tr");
+                secondRow = secondRow.RemoveSingleOnlyTag("tr");
 
                 tableRows.Add(string.Concat(firtsRow, secondRow));
 
