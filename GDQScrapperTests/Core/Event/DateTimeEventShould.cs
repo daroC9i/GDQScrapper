@@ -22,14 +22,8 @@ namespace GDQScrapperTests.Core.Event
 
         private class TestEventDateTime : EventDateTime
         {
-            public TestEventDateTime(string datetime) : base(datetime)
-            {
-            }
-
-            public TestEventDateTime(DateTime datetime) : base(datetime)
-            {
-            }
+            public TestEventDateTime(string datetime) : base(datetime) { }
+            public TestEventDateTime(DateTime datetime) : base(datetime) { }
         }
-
     }
 }
