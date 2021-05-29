@@ -2,6 +2,7 @@
 using System.Globalization;
 using GDQScrapper.Core.Domain.EventData;
 using GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor;
+using GDQScrapper.HtmlDataExtractor.Domain.Exceptions;
 using NUnit.Framework;
 
 namespace Tests.HtmlExtractor
@@ -272,6 +273,20 @@ namespace Tests.HtmlExtractor
 
             // Then
             Assert.AreEqual(expectedCondition, result.Condition.ToString());
+        }
+
+
+        [Test]
+        public void Throw_Ecdeption_When_Create_Event_With_Invalid_Char_For_Separator()
+        {
+            // Given
+            var SomeConditionAndPlatformWithInvalidSeparator = "<td> All Challenges $ PC </td>";
+
+            string simpleEvent = string.Concat(new[] {SomeStartDate, SomeGameName, SomeRunnerName,
+                SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatformWithInvalidSeparator, SomeHostName});
+
+            // When - Then
+            Assert.Throws<InvalidNormailizeDataException>(() => htmlEventsExtractorService.CreateEvent(simpleEvent));
         }
 
         [Test]
