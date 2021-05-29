@@ -1,6 +1,7 @@
 ﻿using GDQScrapper.Core.Domain;
 using GDQScrapper.Core.Domain.EventData;
 using GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor.Extensions;
+using GDQScrapper.HtmlDataExtractor.Domain.Exceptions;
 
 namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
 {
@@ -22,7 +23,7 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
 
             var eventDuration = new EventDuration(NormalizeDuration(ExtractFirstRow()));
 
-            var conditionAndPlatform = ExtractFirstRow().Split('—');
+            var conditionAndPlatform = SplitConditionFromPlatform(ExtractFirstRow());
 
             var condition = new Condition(conditionAndPlatform[0].Trim());
             var gamePlatform = new GamePlatform(conditionAndPlatform[1].Trim());
@@ -33,6 +34,16 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
             var endTime = new EndEventDateTime(startEventDateTime.DateTime.Add(eventDuration.TimeSpan));
 
             return new Event(startEventDateTime, game, runner, setupLenghtDuration, eventDuration, endTime, condition, gamePlatform, host);
+        }
+
+        private string [] SplitConditionFromPlatform(string raw)
+        {
+            string[] result = raw.Split('—');
+
+            if(result.Length != 2)
+                throw new InvalidNormailizeDataException("Invalid split with '—' with: " + raw);
+
+            return result;
         }
 
         private string NormalizeDuration(string rawDuration)

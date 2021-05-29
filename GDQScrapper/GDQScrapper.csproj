@@ -29,5 +29,6 @@
     <Folder Include="HtmlDataExtractor\Infrastructure\Services\" />
     <Folder Include="HtmlDataExtractor\Infrastructure\Services\Extensions\" />
     <Folder Include="Core\Domain\EventData\AbstractEventData\" />
+    <Folder Include="HtmlDataExtractor\Domain\Exceptions\" />
   </ItemGroup>
 </Project>
