@@ -13,9 +13,9 @@ namespace GDQScrapper.Calendar.Actions
             this.service = service;
         }
 
-        public void Excecute(List<Event> events)
+        public void Excecute(List<Event> events, string eventsName)
         {
-            service.Export(events);
+            service.Export(events, eventsName);
         }
     }
 }

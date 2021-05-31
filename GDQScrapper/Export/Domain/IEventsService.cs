@@ -5,6 +5,6 @@ namespace GDQScrapper.Calendar.Domain
 {
     public interface IEventsService
     {
-        void Export(List<Event> events);
+        void Export(List<Event> events, string eventsName);
     }
 }

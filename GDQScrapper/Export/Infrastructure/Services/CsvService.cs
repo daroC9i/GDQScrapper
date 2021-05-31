@@ -21,7 +21,7 @@ namespace GDQScrapper.Export.Domain
             this.fileWriteService = fileWriteService;
         }
 
-        public void Export(List<Event> events)
+        public void Export(List<Event> events, string eventsName)
         {
             stringBuilder.Clear();
 
@@ -80,6 +80,5 @@ namespace GDQScrapper.Export.Domain
 
             stringBuilder.Append(SPACE);
         }
-
     }
 }

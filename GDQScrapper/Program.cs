@@ -37,7 +37,7 @@ namespace GDQScrapper
             var info = scrapper.Excecute("https://gamesdonequick.com/schedule");
             var events = processHtmlInfo.Excecute(info);
 
-            exportToAppleEvents.Excecute(events);
+            exportToAppleEvents.Excecute(events, "SGDQ 2021");
             displayEvents.Excecute(events);
 
             Console.WriteLine("Finished");

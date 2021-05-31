@@ -13,9 +13,9 @@ namespace GDQScrapper.Export.Actions
             this.csvService = csvService;
         }
 
-        public void Excecute(List<Event> events)
+        public void Excecute(List<Event> events, string eventsName)
         {
-            csvService.Export(events);
+            csvService.Export(events, eventsName);
         }
     }
 }

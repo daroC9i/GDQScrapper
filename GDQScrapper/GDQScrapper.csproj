@@ -29,11 +29,15 @@
     <Folder Include="HtmlDataExtractor\Infrastructure\Services\" />
     <Folder Include="Core\Domain\EventData\AbstractEventData\" />
     <Folder Include="HtmlDataExtractor\Domain\Exceptions\" />
+    <Folder Include="Export\Infrastructure\Services\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="HTMLExtensionTools">
       <HintPath>HTMLExtensionTools.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="AppleEventsCreator">
+      <HintPath>AppleEventsCreator.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
