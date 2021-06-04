@@ -43,7 +43,6 @@ namespace GDQScrapper.Calendar.Domain
                 eventSummay += " - " + eventsName;
 
             return new AppleEvent(
-                DateTime.Now,
                 @event.StartDateTime.DateTime,
                 @event.EndDateTime.DateTime,
                 eventSummay,
