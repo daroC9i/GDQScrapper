@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GDQScrapper.Calendar.Actions;
 using GDQScrapper.Calendar.Domain;
 using GDQScrapper.Export.Infrastructure;
@@ -11,8 +12,14 @@ namespace GDQScrapper
 {
     class Program
     {
+        private static string GDQEventName;
+
         static void Main(string[] args)
         {
+            GDQEventName = "GDQ - " + DateTime.Now.ToString("yyyy");
+            
+            Console.WriteLine("Event Name: " + GDQEventName);
+
             var webcClient = new WebScrapper.Infrastructure.WebClientDotNet();
             var infoScrapper = new WebScrapper.Domain.InfoScrapperService(webcClient);
             var scrapper = new WebScrapper.Actions.GetInfo(infoScrapper);
@@ -33,7 +40,7 @@ namespace GDQScrapper
             var info = scrapper.Excecute("https://gamesdonequick.com/schedule");
             var events = processHtmlInfo.Excecute(info);
 
-            exportToAppleEvents.Excecute(events, "SGDQ 2021");
+            exportToAppleEvents.Excecute(events, GDQEventName);
             displayEvents.Excecute(events);
 
             Console.WriteLine("Finished");
