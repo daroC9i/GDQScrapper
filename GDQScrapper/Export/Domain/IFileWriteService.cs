@@ -2,6 +2,6 @@
 {
     public interface IFileWriteService
     {
-        void ExportToFile(string file, string fileName, string extencion);
+        void ExportToFile(string file, string fileName, string extension);
     }
 }

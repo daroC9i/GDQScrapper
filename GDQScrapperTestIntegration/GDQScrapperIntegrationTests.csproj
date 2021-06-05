@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="HTMLExtensionTools">
+      <HintPath>..\GDQScrapper\HTMLExtensionTools.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetFileIO">
+      <HintPath>..\GDQScrapper\DotNetFileIO.dll</HintPath>
+    </Reference>
+    <Reference Include="AppleEventsCreator">
+      <HintPath>..\GDQScrapper\AppleEventsCreator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GDQScrapper\GDQScrapper.csproj" />
+  </ItemGroup>
+</Project>
