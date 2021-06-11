@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using GDQScrapper.Core.Domain;
+using GDQScrapper.HtmlDataExtractor.Domain;
 
 namespace GDQScrapper.GDQProcessor.Domain
 {
     public interface IHtmlExtractorService
     {
-        List<Event> CreateEventsOf(string raw);
+        List<RawEvent> CreateEventsOf(string raw);
     }
 }

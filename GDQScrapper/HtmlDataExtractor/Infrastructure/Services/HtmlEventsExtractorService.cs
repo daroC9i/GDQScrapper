@@ -1,5 +1,4 @@
-﻿using GDQScrapper.Core.Domain;
-using GDQScrapper.Core.Domain.EventData;
+﻿using GDQScrapper.HtmlDataExtractor.Domain;
 using GDQScrapper.HtmlDataExtractor.Domain.Exceptions;
 using HTMLExtensionTools;
 
@@ -9,31 +8,27 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
     {
         string dataRaw;
 
-        public Event CreateEvent(string eventDataRaw)
+        public RawEvent CreateRawEvent(string eventDataRaw)
         {
             dataRaw = eventDataRaw;
 
-            var startEventDateTime = new StartEventDateTime(ExtractFirstRow());
+            var startEventDateTime = ExtractFirstRow();
 
-            var game = new Game(ExtractFirstRow());
+            var game = ExtractFirstRow();
 
-            var runner = new Runner(ExtractFirstRow());
+            var runner = ExtractFirstRow();
 
-            var setupLenghtDuration = new SetupLenghtDuration(NormalizeDuration(ExtractFirstRow()));
+            var setupLenghtDuration = NormalizeDuration(ExtractFirstRow());
 
-            var eventDuration = new EventDuration(NormalizeDuration(ExtractFirstRow()));
+            var eventDuration = NormalizeDuration(ExtractFirstRow());
 
             var conditionAndPlatform = SplitConditionFromPlatform(ExtractFirstRow());
+            var condition = conditionAndPlatform[0].Trim();
+            var gamePlatform = conditionAndPlatform[1].Trim();
 
-            var condition = new Condition(conditionAndPlatform[0].Trim());
-            var gamePlatform = new GamePlatform(conditionAndPlatform[1].Trim());
+            var host = ExtractFirstRow();
 
-
-            var host = new Host(ExtractFirstRow());
-
-            var endTime = new EndEventDateTime(startEventDateTime.DateTime.Add(eventDuration.TimeSpan));
-
-            return new Event(startEventDateTime, game, runner, setupLenghtDuration, eventDuration, endTime, condition, gamePlatform, host);
+            return new RawEvent(startEventDateTime, game, runner, setupLenghtDuration, eventDuration, null, condition, gamePlatform, host);
         }
 
         private string [] SplitConditionFromPlatform(string raw)
@@ -58,16 +53,15 @@ namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
 
         private string ExtractFirstRow()
         {
-            var row = dataRaw.ExtractFirstSingleWithTag("td"); // ExtractFirstSingleWithTag
+            var row = dataRaw.ExtractFirstSingleWithTag("td");
             var normalizedRow = Normalize(row);
-            dataRaw = dataRaw.RemoveFirstSingleTag("td"); // RemoveFirstSingleTag
+            dataRaw = dataRaw.RemoveFirstSingleTag("td");
 
             return normalizedRow;
         }
 
         private string Normalize(string dataRow)
         {
-            // RemoveSingleOnlyTag + TryRemoveSinleTag + RemoveSpacesInFronAndBack
             return dataRow.RemoveSingleOnlyTag("td").TryRemoveSinleTag("i").RemoveSpacesInFronAndBack();
         }
     }

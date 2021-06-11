@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using GDQScrapper.Core.Domain;
 using GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor;
+using GDQScrapper.HtmlDataExtractor.Domain;
 using HTMLExtensionTools;
 
 namespace GDQScrapper.GDQProcessor.Domain
@@ -17,9 +17,9 @@ namespace GDQScrapper.GDQProcessor.Domain
             this.htmlEventExtractorService = htmlEventExtractorService;
         }
 
-        public List<Event> CreateEventsOf(string raw)
+        public List<RawEvent> CreateEventsOf(string raw)
         {
-            List<Event> events = new List<Event>();
+            List<RawEvent> events = new List<RawEvent>();
 
             var filterTable = Normalize(raw);
             var table = ExtractTable(filterTable);
@@ -28,7 +28,7 @@ namespace GDQScrapper.GDQProcessor.Domain
 
             foreach (var row in tableRowa)
             {
-                events.Add(htmlEventExtractorService.CreateEvent(row));
+                events.Add(htmlEventExtractorService.CreateRawEvent(row));
             }
 
             return events;

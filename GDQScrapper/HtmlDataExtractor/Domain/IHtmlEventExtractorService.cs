@@ -1,9 +1,9 @@
-﻿using GDQScrapper.Core.Domain;
+﻿using GDQScrapper.HtmlDataExtractor.Domain;
 
 namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
 {
     public interface IHtmlEventExtractorService
     {
-        Event CreateEvent(string dataRow);
+        RawEvent CreateRawEvent(string dataRow);
     }
 }

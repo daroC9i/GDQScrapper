@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using GDQScrapper.Core.Domain;
 using GDQScrapper.GDQProcessor.Domain;
+using GDQScrapper.HtmlDataExtractor.Domain;
 
 namespace GDQScrapper.GDQProcessor.Actions
 {
@@ -13,7 +13,7 @@ namespace GDQScrapper.GDQProcessor.Actions
             this.htmlExtractorService = htmlExtractorService;
         }
 
-        public List<Event> Excecute(string raw)
+        public List<RawEvent> Excecute(string raw)
         {
             return htmlExtractorService.CreateEventsOf(raw);
         }

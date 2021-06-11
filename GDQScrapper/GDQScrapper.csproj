@@ -31,6 +31,8 @@
     <Folder Include="Core\Domain\EventData\AbstractEventData\" />
     <Folder Include="HtmlDataExtractor\Domain\Exceptions\" />
     <Folder Include="Export\Infrastructure\Services\" />
+    <Folder Include="Core\Actions\" />
+    <Folder Include="Core\Domain\Errors\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AppleEventsCreator">

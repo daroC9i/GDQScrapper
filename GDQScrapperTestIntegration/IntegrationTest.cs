@@ -7,6 +7,10 @@ using GDQScrapper.GDQProcessor.Domain;
 using GDQScrapper.GDQProcessor.Actions;
 using GDQScrapper.Calendar.Domain;
 using GDQScrapper.Calendar.Actions;
+using GDQScrapper.Core.Domain;
+using System.Collections.Generic;
+using GDQScrapper.Core.Infrastructure;
+using GDQScrapper.Core.Actions;
 
 namespace GDQScrapperTestIntegration
 {
@@ -30,6 +34,9 @@ namespace GDQScrapperTestIntegration
         AppleEventsService eventsService;
         ExportToAppleEvents exportToAppleEvents;
 
+        IEventConverterService eventConverterService;
+        ConvertToEvent convertToEvent;
+
         [SetUp]
         public void Setup()
         {
@@ -45,6 +52,9 @@ namespace GDQScrapperTestIntegration
             fileWriteService = new DummyWriteService();
             eventsService = new AppleEventsService(fileWriteService);
             exportToAppleEvents = new ExportToAppleEvents(eventsService);
+
+            eventConverterService = new EventConverterService();
+            convertToEvent = new ConvertToEvent(eventConverterService);
         }
 
 
@@ -53,8 +63,12 @@ namespace GDQScrapperTestIntegration
         {
             string [] fileLines = GetDummyFile();
 
-            var events = processHtmlInfo.Excecute(string.Join('\n', fileLines));
-            Assert.IsNotEmpty(events);
+            var rawEvents = processHtmlInfo.Excecute(string.Join('\n', fileLines));
+            Assert.IsNotEmpty(rawEvents);
+
+
+            List<Event> events = new List<Event>();
+            rawEvents.ForEach(item => events.Add(convertToEvent.Excecute(item)));
 
             exportToAppleEvents.Excecute(events, SomeGDQEventName);
             Assert.IsNotEmpty(fileWriteService.File);

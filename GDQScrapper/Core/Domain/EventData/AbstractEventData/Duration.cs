@@ -1,4 +1,5 @@
 ﻿using System;
+using GDQScrapper.Core.Domain.Errors;
 
 namespace GDQScrapper.Core.Domain.EventData
 {
@@ -9,6 +10,9 @@ namespace GDQScrapper.Core.Domain.EventData
 
         public Duration(string duration)
         {
+            if (string.IsNullOrEmpty(duration))
+                throw new InvalidDurationException();
+
             TimeSpan = TimeSpan.Parse(duration);
         }
 

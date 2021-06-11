@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GDQScrapper.Calendar.Actions;
 using GDQScrapper.Calendar.Domain;
+using GDQScrapper.Core.Actions;
+using GDQScrapper.Core.Domain;
+using GDQScrapper.Core.Infrastructure;
 using GDQScrapper.Export.Infrastructure;
 using GDQScrapper.GDQProcessor.Actions;
 using GDQScrapper.GDQProcessor.Domain;
@@ -37,8 +41,14 @@ namespace GDQScrapper
             AppleEventsService eventsService = new AppleEventsService(fileWriteService);
             ExportToAppleEvents exportToAppleEvents = new ExportToAppleEvents(eventsService);
 
+            IEventConverterService eventConverterService = new EventConverterService();
+            ConvertToEvent convertToEvent = new ConvertToEvent(eventConverterService);
+
             var info = scrapper.Excecute("https://gamesdonequick.com/schedule");
-            var events = processHtmlInfo.Excecute(info);
+            var raeEvents = processHtmlInfo.Excecute(info);
+
+            List<Event> events = new List<Event>();
+            raeEvents.ForEach(item => events.Add(convertToEvent.Excecute(item)));
 
             exportToAppleEvents.Excecute(events, GDQEventName);
             displayEvents.Excecute(events);

@@ -29,12 +29,11 @@ namespace Tests.HtmlExtractor
         public void Create_Simple_Event()
         {
             // Given
-            var expectedStartDateTime = CreateExpectedDateTime("2021-01-03 10:30:00Z");
-            var expectedEndDateTime = CreateExpectedDateTime("2021-01-03 10:50:00Z");
+            var expectedStartDateTime = "2021-01-03T10:30:00Z";
             var expectedGameName = "Game";
             var expectedRunnerName = "Runner";
-            var expectedSetupLenghtDuration = new SetupLenghtDuration("0:10:00");
-            var expectedEventDuration = new EventDuration("0:20:00");
+            var expectedSetupLenghtDuration = "0:10:00";
+            var expectedEventDuration = "0:20:00";
             var expectedCondition = "Condition";
             var expectedGamePlatform = "Platform";
             var expectedHostName = "host";
@@ -43,11 +42,10 @@ namespace Tests.HtmlExtractor
                 SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatform, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
-            Assert.AreEqual(expectedStartDateTime, result.StartDateTime.DateTime);
-            Assert.AreEqual(expectedEndDateTime, result.EndDateTime.DateTime);
+            Assert.AreEqual(expectedStartDateTime, result.StartDateTime);
             Assert.AreEqual(expectedGameName, result.Game.ToString());
             Assert.AreEqual(expectedRunnerName, result.Runners.ToString());
             Assert.AreEqual(expectedSetupLenghtDuration, result.SetupLenght);
@@ -61,20 +59,17 @@ namespace Tests.HtmlExtractor
         public void Create_Event_With_Class_In_Div_On_Start_Date()
         {
             // Given
-            var expectedStartDateTime = CreateExpectedDateTime("2021-01-03 10:30:00Z");
-            var expectedEndDateTime = CreateExpectedDateTime("2021-01-03 10:50:00Z");
-            
+            var expectedStartDateTime = "2021-01-03T10:30:00Z";
             var SomeStartDateWithClass = "<td class='start - time text - right'>2021-01-03T10:30:00Z</td>";
 
             string simpleEvent = string.Concat(new[] {SomeStartDateWithClass, SomeGameName, SomeRunnerName,
                 SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatform, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
-            Assert.AreEqual(expectedStartDateTime, result.StartDateTime.DateTime);
-            Assert.AreEqual(expectedEndDateTime, result.EndDateTime.DateTime);
+            Assert.AreEqual(expectedStartDateTime, result.StartDateTime);
         }
 
         [Test]
@@ -88,7 +83,7 @@ namespace Tests.HtmlExtractor
                 SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatform, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
             Assert.AreEqual(expectedGameName, result.Game.ToString());
@@ -105,7 +100,7 @@ namespace Tests.HtmlExtractor
                 SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatform, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
             Assert.AreEqual(expectedRunnerName, result.Runners.ToString());
@@ -122,7 +117,7 @@ namespace Tests.HtmlExtractor
                 SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatform, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
             Assert.AreEqual(expectedRunnerName, result.Runners.ToString());
@@ -132,7 +127,7 @@ namespace Tests.HtmlExtractor
         public void Create_Event_With_Complex_Data_In_Setup_Leght_Duration()
         {
             // Given
-            var expectedSetupLenghtDuration = new SetupLenghtDuration("0:10:00");
+            var expectedSetupLenghtDuration = "0:10:00";
 
             var SomeSetupLeghtDurationWithComplexData =
                 "<td rowspan = '2' class='visible-lg text-center'> <i class='fa fa-clock-o text-gdq-red' aria-hidden='true'></i> 0:10:00 </td>";
@@ -141,7 +136,7 @@ namespace Tests.HtmlExtractor
                 SomeSetupLeghtDurationWithComplexData, SomeEventDuration, SomeConditionAndPlatform, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
             Assert.AreEqual(expectedSetupLenghtDuration, result.SetupLenght);
@@ -152,7 +147,7 @@ namespace Tests.HtmlExtractor
         public void Create_Event_Without_Setup_Leght_Duration()
         {
             // Given
-            var expectedSetupLenghtDuration = new SetupLenghtDuration("0:00:00");
+            var expectedSetupLenghtDuration = "00:00:00";
 
             var WithoutSetupLeghtDuration = "<td></td>";
 
@@ -160,11 +155,10 @@ namespace Tests.HtmlExtractor
                 WithoutSetupLeghtDuration, SomeEventDuration, SomeConditionAndPlatform, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
             Assert.AreEqual(expectedSetupLenghtDuration, result.SetupLenght);
-            Assert.IsTrue(result.SetupLenght.IsZero);
         }
 
 
@@ -172,7 +166,7 @@ namespace Tests.HtmlExtractor
         public void Create_Event_With_Complex_Data_In_Event_Duration()
         {
             // Given
-            var expectedEventDuration = new EventDuration("0:20:00");
+            var expectedEventDuration = "0:20:00";
             var SomeEventDurationWithComplexData =
                  "<td class='text-right'> <i class='fa fa-clock-o' aria-hidden='true'></i> 0:20:00 </td>";
 
@@ -180,7 +174,7 @@ namespace Tests.HtmlExtractor
                 SomeSetupDuration, SomeEventDurationWithComplexData, SomeConditionAndPlatform, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
             Assert.AreEqual(expectedEventDuration, result.EventDuration);
@@ -200,7 +194,7 @@ namespace Tests.HtmlExtractor
                 SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatformWithSpaces, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
             Assert.AreEqual(expectedCondition, result.Condition.ToString());
@@ -218,7 +212,7 @@ namespace Tests.HtmlExtractor
                 SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatformWithSpaces, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
             Assert.AreEqual(expectedCondition, result.Condition.ToString());
@@ -235,7 +229,7 @@ namespace Tests.HtmlExtractor
                 SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatformWithSpaces, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
             Assert.AreEqual(expectedCondition, result.Condition.ToString());
@@ -252,7 +246,7 @@ namespace Tests.HtmlExtractor
                 SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatformWithSpaces, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
             Assert.AreEqual(expectedCondition, result.Condition.ToString());
@@ -269,7 +263,7 @@ namespace Tests.HtmlExtractor
                 SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatformWithSpaces, SomeHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
             Assert.AreEqual(expectedCondition, result.Condition.ToString());
@@ -286,7 +280,7 @@ namespace Tests.HtmlExtractor
                 SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatformWithInvalidSeparator, SomeHostName});
 
             // When - Then
-            Assert.Throws<InvalidNormailizeDataException>(() => htmlEventsExtractorService.CreateEvent(simpleEvent));
+            Assert.Throws<InvalidNormailizeDataException>(() => htmlEventsExtractorService.CreateRawEvent(simpleEvent));
         }
 
         [Test]
@@ -300,17 +294,10 @@ namespace Tests.HtmlExtractor
                 SomeSetupDuration, SomeEventDuration, SomeConditionAndPlatform, SomeComplexHostName});
 
             // When
-            var result = htmlEventsExtractorService.CreateEvent(simpleEvent);
+            var result = htmlEventsExtractorService.CreateRawEvent(simpleEvent);
 
             // Then
             Assert.AreEqual(expectedHostName, result.Host.ToString());
-        }
-
-
-
-        private DateTime CreateExpectedDateTime(string data)
-        {
-            return DateTime.ParseExact(data, "yyyy-MM-dd HH:mm:ssZ", CultureInfo.InvariantCulture);
         }
     }
 }
