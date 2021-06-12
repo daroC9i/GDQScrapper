@@ -60,23 +60,23 @@ namespace GDQScrapperTests.Core
             Assert.AreEqual(expectedHostName, result.Host.ToString());
         }
 
-        //[Test]
-        //public void Create_Event_With_Two_Or_More_Runners_Name()
-        //{
-        //    // Given
-        //    var expectedRunnerName = "Shockwve, MunchaKoopas, Tokeegee, Traderkirk, Scoobyfoo, BystanderTim";
-        //    var SomeRunnerNameWithSpaces = "Shockwve, MunchaKoopas, Tokeegee, Traderkirk, Scoobyfoo, BystanderTim";
+        [Test]
+        public void Create_Event_With_Two_Or_More_Runners_Name()
+        {
+            // Given
+            var expectedRunnerName = "Shockwve, MunchaKoopas, Tokeegee, Traderkirk, Scoobyfoo, BystanderTim";
+            var SomeRunnerNameWithSpaces = "Shockwve, MunchaKoopas, Tokeegee, Traderkirk, Scoobyfoo, BystanderTim";
 
-        //    var rawEvent = new RawEvent(SomeStartDate, SomeGameName, SomeRunnerNameWithSpaces,
-        //        SomeSetupDuration, SomeEventDuration,null, SomeCondition, SomePlatform, SomeHostName);
+            var rawEvent = new RawEvent(SomeStartDate, SomeGameName, SomeRunnerNameWithSpaces,
+                SomeSetupDuration, SomeEventDuration, null, SomeCondition, SomePlatform, SomeHostName);
 
-        //    // When
-        //    var result = eventConverterService.Convert(rawEvent);
+            // When
+            var result = eventConverterService.Convert(rawEvent);
 
-        //    // Then
-        //    //Assert.IsTrue(result.Runners.Count > 1);
-        //    //Assert.AreEqual(expectedRunnerName, result.Runners.ToString());
-        //}
+            // Then
+            Assert.IsTrue(result.Runners.Count > 1);
+            Assert.AreEqual(expectedRunnerName, result.Runners.ToString());
+        }
 
         [Test]
         public void Create_Event_Without_Setup_Leght_Duration()

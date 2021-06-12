@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GDQScrapper.Core.Domain;
 using GDQScrapper.Core.Domain.EventData;
 using GDQScrapper.HtmlDataExtractor.Domain;
@@ -20,7 +21,7 @@ namespace GDQScrapper.Core.Infrastructure
 
             var game = new Game(rawEvent.Game);
 
-            var runner = new Runner(rawEvent.Runners);
+            var runners = ConvertToRunners(rawEvent.Runners);
 
             var setupLenghtDuration = new SetupLenghtDuration(rawEvent.SetupLenght);
 
@@ -34,7 +35,13 @@ namespace GDQScrapper.Core.Infrastructure
 
             var endTime = new EndEventDateTime(startEventDateTime.DateTime.Add(eventDuration.TimeSpan));
 
-            return new Event(eventId, startEventDateTime, game, runner, setupLenghtDuration, eventDuration, endTime, condition, gamePlatform, host);
+            return new Event(eventId, startEventDateTime, game, runners, setupLenghtDuration, eventDuration, endTime, condition, gamePlatform, host);
+        }
+
+        private Runners ConvertToRunners(string runnersRaw)
+        {
+            var runners = runnersRaw.Split(',').Select(item => new Runner(item)).ToArray();
+            return new Runners(runners);
         }
     }
 }
