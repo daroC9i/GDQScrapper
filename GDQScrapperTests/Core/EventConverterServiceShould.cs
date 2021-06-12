@@ -48,6 +48,7 @@ namespace GDQScrapperTests.Core
             var result = eventConverterService.Convert(rawEvent);
 
             // Then
+            Assert.IsNotEmpty(result.EventId.Value);
             Assert.AreEqual(expectedStartDateTime, result.StartDateTime.DateTime);
             Assert.AreEqual(expectedEndDateTime, result.EndDateTime.DateTime);
             Assert.AreEqual(expectedGameName, result.Game.ToString());

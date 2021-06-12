@@ -1,4 +1,5 @@
-﻿using GDQScrapper.Core.Domain;
+﻿using System;
+using GDQScrapper.Core.Domain;
 using GDQScrapper.Core.Domain.EventData;
 using GDQScrapper.HtmlDataExtractor.Domain;
 
@@ -9,11 +10,12 @@ namespace GDQScrapper.Core.Infrastructure
         Event Convert(RawEvent rawEvent);
     }
 
-
     public class EventConverterService : IEventConverterService
     {
         public Event Convert(RawEvent rawEvent)
         {
+            var eventId = new EventId(Guid.NewGuid().ToString());
+
             var startEventDateTime = new StartEventDateTime(rawEvent.StartDateTime);
 
             var game = new Game(rawEvent.Game);
@@ -32,7 +34,7 @@ namespace GDQScrapper.Core.Infrastructure
 
             var endTime = new EndEventDateTime(startEventDateTime.DateTime.Add(eventDuration.TimeSpan));
 
-            return new Event(startEventDateTime, game, runner, setupLenghtDuration, eventDuration, endTime, condition, gamePlatform, host);
+            return new Event(eventId, startEventDateTime, game, runner, setupLenghtDuration, eventDuration, endTime, condition, gamePlatform, host);
         }
     }
 }
