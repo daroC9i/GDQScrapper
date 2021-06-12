@@ -26,7 +26,7 @@ namespace GDQScrapper.GDQProcessor.Domain.Displayer
 
             Console.WriteLine("");
             Console.WriteLine("Runner: " + eventData.Runners.ToString());
-            Console.WriteLine("Host: " + eventData.Host.ToString());
+            Console.WriteLine("Host: " + eventData.Hosts.ToString());
             Console.WriteLine("\n\n\n");
         }
 

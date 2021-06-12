@@ -31,17 +31,23 @@ namespace GDQScrapper.Core.Infrastructure
 
             var gamePlatform = new GamePlatform(rawEvent.GamePlatform);
 
-            var host = new Host(rawEvent.Host);
+            var hosts = ConvertToHosts(rawEvent.Host);
 
             var endTime = new EndEventDateTime(startEventDateTime.DateTime.Add(eventDuration.TimeSpan));
 
-            return new Event(eventId, startEventDateTime, game, runners, setupLenghtDuration, eventDuration, endTime, condition, gamePlatform, host);
+            return new Event(eventId, startEventDateTime, game, runners, setupLenghtDuration, eventDuration, endTime, condition, gamePlatform, hosts);
         }
 
         private Runners ConvertToRunners(string runnersRaw)
         {
             var runners = runnersRaw.Split(',').Select(item => new Runner(item)).ToArray();
             return new Runners(runners);
+        }
+
+        private Hosts ConvertToHosts(string hostsRaw)
+        {
+            var runners = hostsRaw.Split(',').Select(item => new Host(item)).ToArray();
+            return new Hosts(runners);
         }
     }
 }

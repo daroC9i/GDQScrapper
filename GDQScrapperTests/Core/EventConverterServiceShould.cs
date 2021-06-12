@@ -57,17 +57,17 @@ namespace GDQScrapperTests.Core
             Assert.AreEqual(expectedEventDuration, result.EventDuration);
             Assert.AreEqual(expectedCondition, result.Condition.ToString());
             Assert.AreEqual(expectedGamePlatform, result.GamePlatform.ToString());
-            Assert.AreEqual(expectedHostName, result.Host.ToString());
+            Assert.AreEqual(expectedHostName, result.Hosts.ToString());
         }
 
         [Test]
         public void Create_Event_With_Two_Or_More_Runners_Name()
         {
             // Given
-            var expectedRunnerName = "Shockwve, MunchaKoopas, Tokeegee, Traderkirk, Scoobyfoo, BystanderTim";
-            var SomeRunnerNameWithSpaces = "Shockwve, MunchaKoopas, Tokeegee, Traderkirk, Scoobyfoo, BystanderTim";
+            var expectedRunnersNames = "Shockwve, MunchaKoopas, Tokeegee, Traderkirk, Scoobyfoo, BystanderTim";
+            var SomeRunnersNamesWithSpaces = "Shockwve, MunchaKoopas, Tokeegee, Traderkirk, Scoobyfoo, BystanderTim";
 
-            var rawEvent = new RawEvent(SomeStartDate, SomeGameName, SomeRunnerNameWithSpaces,
+            var rawEvent = new RawEvent(SomeStartDate, SomeGameName, SomeRunnersNamesWithSpaces,
                 SomeSetupDuration, SomeEventDuration, null, SomeCondition, SomePlatform, SomeHostName);
 
             // When
@@ -75,7 +75,25 @@ namespace GDQScrapperTests.Core
 
             // Then
             Assert.IsTrue(result.Runners.Count > 1);
-            Assert.AreEqual(expectedRunnerName, result.Runners.ToString());
+            Assert.AreEqual(expectedRunnersNames, result.Runners.ToString());
+        }
+
+        [Test]
+        public void Create_Event_With_Two_Or_More_Hosts_Name()
+        {
+            // Given
+            var expectedHostsNames = "SomeHost1, SomeHost2, SomeHost3, SomeHost4, SomeHost5";
+            var SomeHostsNamesWithSpaces = "SomeHost1, SomeHost2, SomeHost3, SomeHost4, SomeHost5";
+
+            var rawEvent = new RawEvent(SomeStartDate, SomeGameName, SomeRunnerName,
+                SomeSetupDuration, SomeEventDuration, null, SomeCondition, SomePlatform, SomeHostsNamesWithSpaces);
+
+            // When
+            var result = eventConverterService.Convert(rawEvent);
+
+            // Then
+            Assert.IsTrue(result.Hosts.Count > 1);
+            Assert.AreEqual(expectedHostsNames, result.Hosts.ToString());
         }
 
         [Test]
