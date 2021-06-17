@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using GDQScrapper.Calendar.Actions;
 using GDQScrapper.Calendar.Domain;
 using GDQScrapper.Core.Actions;
 using GDQScrapper.Core.Domain;
 using GDQScrapper.Core.Infrastructure;
+using GDQScrapper.Displayer.Actions;
+using GDQScrapper.Displayer.Views;
 using GDQScrapper.Export.Infrastructure;
 using GDQScrapper.GDQProcessor.Actions;
 using GDQScrapper.GDQProcessor.Domain;
-using GDQScrapper.GDQProcessor.Domain.Displayer;
 using GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor;
 
 namespace GDQScrapper
@@ -34,8 +34,9 @@ namespace GDQScrapper
             IHtmlExtractorService htmlExtractorService = new HtmlExtractorService(htmlRowExtractorService, htmlEventExtractorService);
             ExtractEvents processHtmlInfo = new ExtractEvents(htmlExtractorService);
 
-            IDisplayerService displayerService = new DisplayerService();
-            DisplayEvents displayEvents = new DisplayEvents(displayerService);
+            IConsoleView consoleView = new DotNetConsole();
+            ITableView tableView = new TableView(consoleView);
+            DisplayTableOfEvents displayEvents = new DisplayTableOfEvents(tableView);
 
             IFileWriteService fileWriteService = new DotNetFileWriteService();
             AppleEventsService eventsService = new AppleEventsService(fileWriteService);
@@ -51,7 +52,7 @@ namespace GDQScrapper
             raeEvents.ForEach(item => events.Add(convertToEvent.Excecute(item)));
 
             exportToAppleEvents.Excecute(events, GDQEventName);
-            displayEvents.Excecute(events);
+            displayEvents.Excecute("-- " + GDQEventName + " ---", events);
 
             Console.WriteLine("Finished");
         }

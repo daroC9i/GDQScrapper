@@ -33,6 +33,9 @@
     <Folder Include="Export\Infrastructure\Services\" />
     <Folder Include="Core\Actions\" />
     <Folder Include="Core\Domain\Errors\" />
+    <Folder Include="Displayer\Views\" />
+    <Folder Include="Displayer\Presenters\" />
+    <Folder Include="Displayer\Domain\Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AppleEventsCreator">

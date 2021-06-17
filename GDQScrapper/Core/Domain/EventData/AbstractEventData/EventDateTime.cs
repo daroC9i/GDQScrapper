@@ -24,7 +24,7 @@ namespace GDQScrapper.Core.Domain.EventData
 
         public override string ToString()
         {
-            return DateTime.ToString("yyyy-MM-dd HH:mm:ss"); ;
+            return DateTime.ToString("yyyy-MM-dd HH:mm:ss");
         }
     }
 }

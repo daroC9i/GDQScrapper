@@ -19,6 +19,9 @@
     <Folder Include="HtmlExtractor\" />
     <Folder Include="Core\" />
     <Folder Include="Core\Event\" />
+    <Folder Include="Displayer\" />
+    <Folder Include="Displayer\Views\" />
+    <Folder Include="Builders\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GDQScrapper\GDQScrapper.csproj" />
