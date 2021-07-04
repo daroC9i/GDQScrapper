@@ -6,7 +6,7 @@ using AppleEventsCreator;
 
 namespace GDQScrapper.Calendar.Domain
 {
-    public class AppleEventsService : IEventsService
+    public class AppleEventsService : IEventsExporterService
     {
         private readonly IFileWriteService fileWriteService;
         private AppleEventsCreatorService eventsCreator = new AppleEventsCreatorService();
@@ -24,7 +24,7 @@ namespace GDQScrapper.Calendar.Domain
             this.eventsName = eventsName;
             PrepareListEventsForExport(events);
             var export = eventsCreator.CreateFile(appleEvents);
-            fileWriteService.ExportToFile(export.Data, ExportConfiguration.DefaultAppleEventsFileName, export.FileExtension);
+            fileWriteService.ExportToFile(export.Data, ExportConfiguration.DefaultEventsExportedFileName, export.FileExtension);
         }
 
         private void PrepareListEventsForExport(List<Event> events)

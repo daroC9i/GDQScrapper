@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+    <ReleaseVersion>0.2.0</ReleaseVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,5 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GDQScrapper\GDQScrapper.csproj" />
+    <ProjectReference Include="..\GDQScrapperTests\GDQScrapperTests.csproj" />
   </ItemGroup>
 </Project>

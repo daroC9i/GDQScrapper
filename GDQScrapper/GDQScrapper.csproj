@@ -30,12 +30,13 @@
     <Folder Include="HtmlDataExtractor\Infrastructure\Services\" />
     <Folder Include="Core\Domain\EventData\AbstractEventData\" />
     <Folder Include="HtmlDataExtractor\Domain\Exceptions\" />
-    <Folder Include="Export\Infrastructure\Services\" />
+    <Folder Include="Export\Infrastructure\Exporters\" />
     <Folder Include="Core\Actions\" />
     <Folder Include="Core\Domain\Errors\" />
     <Folder Include="Displayer\Views\" />
     <Folder Include="Displayer\Presenters\" />
     <Folder Include="Displayer\Domain\Exceptions\" />
+    <Folder Include="Export\Infrastructure\Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AppleEventsCreator">
