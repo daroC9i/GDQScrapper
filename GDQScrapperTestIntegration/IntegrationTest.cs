@@ -27,7 +27,7 @@ namespace GDQScrapperTestIntegration
 
         IHtmlEventExtractorService htmlEventExtractorService;
         IHtmlRowExtractorService htmlRowExtractorService;
-        IHtmlExtractorService htmlExtractorService;
+        IHtmlEventsExtractorService htmlExtractorService;
         ExtractEvents processHtmlInfo;
 
         DummyWriteService fileWriteService;
@@ -46,7 +46,7 @@ namespace GDQScrapperTestIntegration
 
             htmlEventExtractorService = new HtmlEventExtractorService();
             htmlRowExtractorService = new HtmlRowExtractorService();
-            htmlExtractorService = new HtmlExtractorService(htmlRowExtractorService, htmlEventExtractorService);
+            htmlExtractorService = new HtmlEventsExtractorService(htmlRowExtractorService, htmlEventExtractorService);
             processHtmlInfo = new ExtractEvents(htmlExtractorService);
 
             fileWriteService = new DummyWriteService();

@@ -3,7 +3,7 @@ using GDQScrapper.HtmlDataExtractor.Domain;
 
 namespace GDQScrapper.GDQProcessor.Domain
 {
-    public interface IHtmlExtractorService
+    public interface IHtmlEventsExtractorService
     {
         List<RawEvent> CreateEventsOf(string raw);
     }

@@ -6,9 +6,9 @@ namespace GDQScrapper.GDQProcessor.Actions
 {
     public class ExtractEvents
     {
-        private readonly IHtmlExtractorService htmlExtractorService;
+        private readonly IHtmlEventsExtractorService htmlExtractorService;
 
-        public ExtractEvents(IHtmlExtractorService htmlExtractorService)
+        public ExtractEvents(IHtmlEventsExtractorService htmlExtractorService)
         {
             this.htmlExtractorService = htmlExtractorService;
         }

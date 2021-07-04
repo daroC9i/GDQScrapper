@@ -31,7 +31,7 @@ namespace GDQScrapper
 
             IHtmlEventExtractorService htmlEventExtractorService = new HtmlEventExtractorService();
             IHtmlRowExtractorService htmlRowExtractorService = new HtmlRowExtractorService();
-            IHtmlExtractorService htmlExtractorService = new HtmlExtractorService(htmlRowExtractorService, htmlEventExtractorService);
+            IHtmlEventsExtractorService htmlExtractorService = new HtmlEventsExtractorService(htmlRowExtractorService, htmlEventExtractorService);
             ExtractEvents processHtmlInfo = new ExtractEvents(htmlExtractorService);
 
             IConsoleView consoleView = new DotNetConsole();

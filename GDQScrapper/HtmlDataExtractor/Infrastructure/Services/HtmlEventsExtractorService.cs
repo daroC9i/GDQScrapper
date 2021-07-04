@@ -1,68 +1,75 @@
-﻿using GDQScrapper.HtmlDataExtractor.Domain;
-using GDQScrapper.HtmlDataExtractor.Domain.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor;
+using GDQScrapper.HtmlDataExtractor.Domain;
 using HTMLExtensionTools;
 
-namespace GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor
+namespace GDQScrapper.GDQProcessor.Domain
 {
-    public class HtmlEventExtractorService : IHtmlEventExtractorService
+    public class HtmlEventsExtractorService : IHtmlEventsExtractorService
     {
-        string dataRaw;
+        private readonly IHtmlRowExtractorService htmlRowExtractor;
+        private readonly IHtmlEventExtractorService htmlEventExtractorService;
 
-        public RawEvent CreateRawEvent(string eventDataRaw)
+        public HtmlEventsExtractorService(IHtmlRowExtractorService htmlRowExtractor, IHtmlEventExtractorService htmlEventExtractorService)
         {
-            dataRaw = eventDataRaw;
-
-            var startEventDateTime = ExtractFirstRow();
-
-            var game = ExtractFirstRow();
-
-            var runner = ExtractFirstRow();
-
-            var setupLenghtDuration = NormalizeDuration(ExtractFirstRow());
-
-            var eventDuration = NormalizeDuration(ExtractFirstRow());
-
-            var conditionAndPlatform = SplitConditionFromPlatform(ExtractFirstRow());
-            var condition = conditionAndPlatform[0].Trim();
-            var gamePlatform = conditionAndPlatform[1].Trim();
-
-            var host = ExtractFirstRow();
-
-            return new RawEvent(startEventDateTime, game, runner, setupLenghtDuration, eventDuration, null, condition, gamePlatform, host);
+            this.htmlRowExtractor = htmlRowExtractor;
+            this.htmlEventExtractorService = htmlEventExtractorService;
         }
 
-        private string [] SplitConditionFromPlatform(string raw)
+        public List<RawEvent> CreateEventsOf(string raw)
         {
-            string[] result = raw.Split('—');
+            List<RawEvent> events = new List<RawEvent>();
 
-            if(result.Length != 2)
-                throw new InvalidNormailizeDataException("Invalid split with '—' with: " + raw);
+            var filterTable = Normalize(raw);
+            var table = ExtractTable(filterTable);
+            var tableBody = ExtractTableBody(table);
+            var tableRowa = htmlRowExtractor.ExtractTableRows(tableBody);
 
-            return result;
+            foreach (var row in tableRowa)
+            {
+                events.Add(htmlEventExtractorService.CreateRawEvent(row));
+            }
+
+            return events;
         }
 
-        private string NormalizeDuration(string rawDuration)
+        private string Normalize(string raw)
         {
-            rawDuration = rawDuration.Trim();
-
-            if (string.IsNullOrEmpty(rawDuration))
-                rawDuration = "00:00:00";
-
-            return rawDuration;
+            return raw
+                .Replace("\n", "")
+                .Replace("\r", "")
+                .Replace("\t", "")
+                .Replace("&mdash;","—")
+                .Replace("&#039;", "'")
+                .Replace("&amp;", "&")
+                .RemoveSpacesBetweenBrackets();
         }
 
-        private string ExtractFirstRow()
+        private string ExtractTable(string raw)
         {
-            var row = dataRaw.ExtractFirstSingleWithTag("td");
-            var normalizedRow = Normalize(row);
-            dataRaw = dataRaw.RemoveFirstSingleTag("td");
+            var startIndex = raw.IndexOf("<table");
+            var endIndex = raw.IndexOf("</table>");
 
-            return normalizedRow;
+            var table = raw.Substring(startIndex, endIndex - startIndex + 8);
+
+            if (string.IsNullOrEmpty(table))
+                throw new Exception();
+
+            return table;
         }
 
-        private string Normalize(string dataRow)
+        private string ExtractTableBody(string table)
         {
-            return dataRow.RemoveSingleOnlyTag("td").TryRemoveSinleTag("i").RemoveSpacesInFronAndBack();
+            var startIndex = table.IndexOf("<tbody");
+            var endIndex = table.IndexOf("</tbody>");
+
+            var tableBody = table.Substring(startIndex, endIndex - startIndex + 8); // leght of </tbody>
+
+            if (string.IsNullOrEmpty(tableBody))
+                throw new Exception();
+
+            return tableBody;
         }
     }
 }
