@@ -11,7 +11,7 @@ namespace GDQScrapperIntegrationTests
     public class SaveEventsToCsvShould
     {
         [Test]
-        public void SaveToRepository()
+        public void SaveAndGetEventsFromRepository()
         {
             var fileWriteService = new DotNetFileWriteService();
             CsvEventsRepository repository = new CsvEventsRepository(fileWriteService);
@@ -23,6 +23,11 @@ namespace GDQScrapperIntegrationTests
 
             // Where
             repository.Insert(eventList);
+            var result = repository.Get();
+
+            // Then
+            Assert.IsNotEmpty(result);
+            Assert.IsTrue(result.Count == 1);
         }
     }
 }

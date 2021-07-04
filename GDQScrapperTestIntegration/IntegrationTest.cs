@@ -88,6 +88,11 @@ namespace GDQScrapperTestIntegration
                 FileName = fileName;
                 Extension = extension;
             }
+
+            public string[] ReadFile(string fileName, string extension)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private string [] GetDummyFile()

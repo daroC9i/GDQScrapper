@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using GDQScrapper.Calendar.Domain;
 using GDQScrapper.Core.Domain;
+using GDQScrapper.Core.Domain.EventData;
 using GDQScrapper.Export.Domain;
+using GDQScrapper.Export.Domain.Exceptions;
 
 namespace GDQScrapper.Export.Infrastructure.Repositories
 {
@@ -17,6 +19,9 @@ namespace GDQScrapper.Export.Infrastructure.Repositories
         private const string SEPARATOR = ";";
         private const string NEWLINE = "\n";
 
+        private const string FILE_EXTENSION = "csv";
+        private readonly string FILE_NAME = ExportConfiguration.DefaultEventsRepositoryFileName;
+
         public CsvEventsRepository(IFileWriteService fileWriteService)
         {
             this.fileWriteService = fileWriteService;
@@ -24,7 +29,14 @@ namespace GDQScrapper.Export.Infrastructure.Repositories
 
         public List<Event> Get()
         {
-            throw new NotImplementedException();
+            var eventList = new List<Event>();
+
+            var rawEventsStringLines = fileWriteService.ReadFile(FILE_NAME, FILE_EXTENSION);
+
+            foreach (var rawEventStringLine in rawEventsStringLines)
+                eventList.Add(ConvertStringLineToEvent(rawEventStringLine));
+            
+            return eventList;
         }
 
         public void Insert(List<Event> events)
@@ -39,7 +51,7 @@ namespace GDQScrapper.Export.Infrastructure.Repositories
 
             var file = stringEventsBuilder.ToString();
 
-            fileWriteService.ExportToFile(file, ExportConfiguration.DefaultEventsRepositoryFileName, "csv");
+            fileWriteService.ExportToFile(file, FILE_NAME, FILE_EXTENSION);
         }
 
         public void Update(List<Event> events)
@@ -59,10 +71,10 @@ namespace GDQScrapper.Export.Infrastructure.Repositories
             stringBuilder.Append(eventToConvert.EventId);
             stringBuilder.Append(SEPARATOR);
 
-            stringBuilder.Append(eventToConvert.StartDateTime);
+            stringBuilder.Append(eventToConvert.StartDateTime.ToStandarString());
             stringBuilder.Append(SEPARATOR);
 
-            stringBuilder.Append(eventToConvert.EndDateTime);
+            stringBuilder.Append(eventToConvert.EndDateTime.ToStandarString());
             stringBuilder.Append(SEPARATOR);
 
             stringBuilder.Append(eventToConvert.Game);
@@ -86,6 +98,28 @@ namespace GDQScrapper.Export.Infrastructure.Repositories
             stringBuilder.Append(eventToConvert.Hosts);
 
             return stringBuilder.ToString();
+        }
+
+        private Event ConvertStringLineToEvent(string eventStringLine)
+        {
+            var eventStringLineSplited = eventStringLine.Split(SEPARATOR);
+
+            if (eventStringLineSplited.Length != 10)
+                throw new InvalidEventImportException();
+
+            var id = new EventId(eventStringLineSplited[0]);
+            var startDateTime = new StartEventDateTime(eventStringLineSplited[1]);
+            var endDateTime = new EndEventDateTime(eventStringLineSplited[2]);
+            var gameName = new Game(eventStringLineSplited[3]);
+            var runnersName = new Runners(eventStringLineSplited[4]);
+            var setupLenghtDuration = new SetupLenghtDuration(eventStringLineSplited[5]);
+            var eventDuration = new EventDuration(eventStringLineSplited[6]);
+            var condition = new Condition(eventStringLineSplited[7]);
+            var gamePlatform = new GamePlatform(eventStringLineSplited[8]);
+            var hostsName = new Hosts(eventStringLineSplited[9]);
+
+            return new Event(id, startDateTime, gameName, runnersName, setupLenghtDuration,
+                eventDuration, endDateTime, condition, gamePlatform, hostsName);
         }
     }
 }

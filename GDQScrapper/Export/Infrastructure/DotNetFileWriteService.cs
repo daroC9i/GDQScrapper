@@ -15,5 +15,10 @@ namespace GDQScrapper.Export.Infrastructure
 
             FileService.SaveFile(file, path, fileName, extencion);
         }
+
+        public string[] ReadFile(string fileName, string extension)
+        {
+            return FileService.ReadFile(path, fileName, extension);
+        }
     }
 }

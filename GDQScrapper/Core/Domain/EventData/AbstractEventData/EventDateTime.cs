@@ -22,6 +22,11 @@ namespace GDQScrapper.Core.Domain.EventData
             DateTime = DateTime.ParseExact(value, "yyyy-MM-ddTHH:mm:ssZ", culture);
         }
 
+        public string ToStandarString()
+        {
+            return DateTime.ToString("yyyy-MM-ddTHH:mm:ssZ");
+        }
+
         public override string ToString()
         {
             return DateTime.ToString("yyyy-MM-dd HH:mm:ss");

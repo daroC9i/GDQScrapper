@@ -37,6 +37,7 @@
     <Folder Include="Displayer\Presenters\" />
     <Folder Include="Displayer\Domain\Exceptions\" />
     <Folder Include="Export\Infrastructure\Repositories\" />
+    <Folder Include="Export\Domain\Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AppleEventsCreator">

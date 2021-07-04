@@ -16,6 +16,14 @@ namespace GDQScrapper.Core.Domain.EventData
                 this.runners.Add(runner);
         }
 
+        public Runners(string runners)
+        {
+            var runnersSplit = runners.Split(',');
+
+            foreach (var runner in runnersSplit)
+                this.runners.Add(new Runner(runner));
+        }
+
         public Runner [] GetRunners()
         {
             return runners.ToArray();
