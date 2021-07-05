@@ -5,18 +5,18 @@ using GDQScrapper.Core.Domain;
 
 namespace GDQScrapper.Export.Actions
 {
-    public class SaveEvents
+    public class GetAllEvents
     {
         private readonly IEventsRepositoryService eventsRepositoryService;
 
-        public SaveEvents(IEventsRepositoryService eventsRepositoryService)
+        public GetAllEvents(IEventsRepositoryService eventsRepositoryService)
         {
             this.eventsRepositoryService = eventsRepositoryService;
         }
 
-        public void Execute(List<Event> events)
+        public List<Event> Execute()
         {
-            eventsRepositoryService.Insert(events);
+            return eventsRepositoryService.GetAll();
         }
     }
 }

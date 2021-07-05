@@ -27,7 +27,7 @@ namespace GDQScrapper.Export.Infrastructure.Repositories
             this.fileWriteService = fileWriteService;
         }
 
-        public List<Event> Get()
+        public List<Event> GetAll()
         {
             var eventList = new List<Event>();
 

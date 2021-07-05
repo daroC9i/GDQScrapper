@@ -7,7 +7,9 @@ using GDQScrapper.Core.Domain;
 using GDQScrapper.Core.Infrastructure;
 using GDQScrapper.Displayer.Actions;
 using GDQScrapper.Displayer.Views;
+using GDQScrapper.Export.Actions;
 using GDQScrapper.Export.Infrastructure;
+using GDQScrapper.Export.Infrastructure.Repositories;
 using GDQScrapper.GDQProcessor.Actions;
 using GDQScrapper.GDQProcessor.Domain;
 using GDQScrapper.GDQProcessor.Domain.HTMLTableExtractor;
@@ -20,8 +22,8 @@ namespace GDQScrapper
 
         static void Main(string[] args)
         {
-            GDQEventName = "GDQ - " + DateTime.Now.ToString("yyyy");
-            
+            GDQEventName = "SGDQ - " + DateTime.Now.ToString("yyyy"); // TODO automatically adjust
+
             Console.WriteLine("Event Name: " + GDQEventName);
 
             var webcClient = new WebScrapper.Infrastructure.WebClientDotNet();
@@ -39,20 +41,31 @@ namespace GDQScrapper
             DisplayTableOfEvents displayEvents = new DisplayTableOfEvents(tableView);
 
             IFileWriteService fileWriteService = new DotNetFileWriteService();
+            IEventsRepositoryService eventsRepositoryService = new CsvEventsRepository(fileWriteService);
             AppleEventsService eventsService = new AppleEventsService(fileWriteService);
             ExportToAppleEvents exportToAppleEvents = new ExportToAppleEvents(eventsService);
+            GetAllEvents getAllEvents = new GetAllEvents(eventsRepositoryService);
+            SaveEvents saveEvents = new SaveEvents(eventsRepositoryService);
 
             IEventConverterService eventConverterService = new EventConverterService();
             ConvertToEvent convertToEvent = new ConvertToEvent(eventConverterService);
 
+            // ------
+
             var info = scrapper.Excecute("https://gamesdonequick.com/schedule");
             var raeEvents = processHtmlInfo.Excecute(info);
 
-            List<Event> events = new List<Event>();
-            raeEvents.ForEach(item => events.Add(convertToEvent.Excecute(item)));
+            List<Event> eventsFromWeb = new List<Event>();
+            raeEvents.ForEach(item => eventsFromWeb.Add(convertToEvent.Excecute(item)));
 
-            exportToAppleEvents.Excecute(events, GDQEventName);
-            displayEvents.Excecute("-- " + GDQEventName + " ---", events);
+
+            var eventsFromRepository = getAllEvents.Execute();
+
+            if (eventsFromRepository.Count == 0)
+                saveEvents.Execute(eventsFromWeb);
+
+            exportToAppleEvents.Excecute(eventsFromWeb, GDQEventName);
+            displayEvents.Excecute("-- " + GDQEventName + " ---", eventsFromWeb);
 
             Console.WriteLine("Finished");
         }

@@ -30,7 +30,7 @@ namespace GDQScrapperIntegrationTests
 
             // Where
             repository.Insert(eventList);
-            var result = repository.Get();
+            var result = repository.GetAll();
 
             // Then
             Assert.IsNotEmpty(result);
@@ -40,7 +40,7 @@ namespace GDQScrapperIntegrationTests
         [Test]
         public void Get_Empty_List_of_Events_Where_Repository_Does_Not_Exist()
         {
-            var result = repository.Get();
+            var result = repository.GetAll();
 
             // Then
             Assert.IsEmpty(result);
