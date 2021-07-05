@@ -39,5 +39,19 @@ namespace Tests.Displayer
             presenter.LoadEvents(someEvents);
             presenter.Show();
         }
+
+        [Test]
+        public void Show_Empty_Events_List()
+        {
+            // Given
+
+            string someTitle = "--- SomeTitle ---";
+            var someEvents = new List<Event>();
+
+            // Where
+            presenter.LoadTitle(someTitle);
+            presenter.LoadEvents(someEvents);
+            presenter.Show();
+        }
     }
 }

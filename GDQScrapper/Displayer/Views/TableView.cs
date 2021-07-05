@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using GDQScrapper.Export.Actions;
 
 namespace GDQScrapper.Displayer.Views
 {
@@ -24,7 +26,7 @@ namespace GDQScrapper.Displayer.Views
         private int columnsCounter;
 
         private string Title;
-
+        private const string EMPTY_VALUES_MESSAGE = "-- There are no events to show --";
 
         public TableView(IConsoleView consoleView)
         {
@@ -61,12 +63,20 @@ namespace GDQScrapper.Displayer.Views
             WriteTitle();
             WriteColumnsHeaders();
             WriteSeparator();
-            WriteColumnsValues();
+
+            if (ColumnsAreEmpty())
+                WriteEmptyValuesMessage();
+            else
+                WriteColumnsValues();
 
             consoleView.AddLine(stringBuilder.ToString());
         }
 
-        private void WriteTitle()
+        private void WriteTitle() => WriteTextLine(Title);
+        private void WriteEmptyValuesMessage() => WriteTextLine(EMPTY_VALUES_MESSAGE);
+
+
+        private void WriteTextLine(string text)
         {
             int totalLenght = 0;
 
@@ -75,13 +85,13 @@ namespace GDQScrapper.Displayer.Views
 
 
             double windowsHalfWidth = totalLenght / 2;
-            double titleHalfWidth = Title.Length / 2;
+            double titleHalfWidth = text.Length / 2;
             var spacesForTitle = Math.Round(windowsHalfWidth, 0) - Math.Round(titleHalfWidth, 0);
 
             for (int i = 0; i < spacesForTitle; i++)
                 stringBuilder.Append(SPACE);
 
-            stringBuilder.Append(Title);
+            stringBuilder.Append(text);
             stringBuilder.Append(NEW_LINE);
         }
 
@@ -129,6 +139,11 @@ namespace GDQScrapper.Displayer.Views
             stringBuilder.Append(NEW_LINE);
         }
 
+        private bool ColumnsAreEmpty()
+        {
+            return columns.Values.Where(column => column.HaveValues).ToList().Count == 0;
+        }
+
         private void WriteColumnsValues()
         {
             int maxIndexValue = 0;
@@ -169,11 +184,13 @@ namespace GDQScrapper.Displayer.Views
             public int Index { get; }
             public int Width { get { return maxWidth == 0 ? dynamicWidth : maxWidth; } }
             public int Lenght { get { return values.Count; } }
+            public bool HaveValues { get{  return values.Count != 0;} }
 
             private int maxWidth = 0;
             private int dynamicWidth = 0;
 
             private List<string> values = new List<string>();
+
 
 
             public TableColumn(string title, int index)
