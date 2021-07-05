@@ -93,6 +93,16 @@ namespace GDQScrapperTestIntegration
             {
                 throw new NotImplementedException();
             }
+
+            public void DeleteFile(string fileName, string extension)
+            {
+                throw new NotImplementedException();
+            }
+
+            public string[] TryReadFile(string fileName, string extension)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private string [] GetDummyFile()

@@ -9,7 +9,7 @@ using GDQScrapper.Export.Domain.Exceptions;
 
 namespace GDQScrapper.Export.Infrastructure.Repositories
 {
-    public class CsvEventsRepository :IEventsRepositoryService
+    public class CsvEventsRepository : IEventsRepositoryService
     {
         private readonly IFileWriteService fileWriteService;
 
@@ -31,11 +31,11 @@ namespace GDQScrapper.Export.Infrastructure.Repositories
         {
             var eventList = new List<Event>();
 
-            var rawEventsStringLines = fileWriteService.ReadFile(FILE_NAME, FILE_EXTENSION);
+            var rawEventsStringLines = fileWriteService.TryReadFile(FILE_NAME, FILE_EXTENSION);
 
             foreach (var rawEventStringLine in rawEventsStringLines)
                 eventList.Add(ConvertStringLineToEvent(rawEventStringLine));
-            
+
             return eventList;
         }
 
@@ -124,6 +124,11 @@ namespace GDQScrapper.Export.Infrastructure.Repositories
 
             return new Event(id, startDateTime, gameName, runnersName, setupLenghtDuration,
                 eventDuration, endDateTime, condition, gamePlatform, hostsName, favoriteState);
+        }
+
+        public void DeleteAll()
+        {
+            fileWriteService.DeleteFile(FILE_NAME, FILE_EXTENSION);
         }
     }
 }
