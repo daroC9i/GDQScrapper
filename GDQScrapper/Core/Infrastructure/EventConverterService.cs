@@ -15,7 +15,7 @@ namespace GDQScrapper.Core.Infrastructure
     {
         public Event Convert(RawEvent rawEvent)
         {
-            var eventId = new EventId(Guid.NewGuid().ToString());
+            var eventId = new EventId(CreateEventIdFromRaw(rawEvent));
 
             var startEventDateTime = new StartEventDateTime(rawEvent.StartDateTime);
 
@@ -39,6 +39,11 @@ namespace GDQScrapper.Core.Infrastructure
 
             return new Event(eventId, startEventDateTime, game, runners, setupLenghtDuration,
                 eventDuration, endTime, condition, gamePlatform, hosts, favortiteState);
+        }
+
+        private string CreateEventIdFromRaw(RawEvent rawEvent)
+        {
+            return rawEvent.Game + rawEvent.GamePlatform + rawEvent.Condition + rawEvent.Runners.ToString();
         }
 
         private Runners ConvertToRunners(string runnersRaw)

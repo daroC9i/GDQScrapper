@@ -49,7 +49,7 @@ namespace GDQScrapper.Displayer.Presenters
             if (string.IsNullOrEmpty(Title))
                 throw new HasNotSetTitleException();
 
-            if (Events == null || Events.Count == 0)
+            if (Events == null)
                 throw new HasNotSetEventsException();
 
             tableView.SetTitle(Title);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GDQScrapper.Calendar.Actions;
 using GDQScrapper.Calendar.Domain;
 using GDQScrapper.Core.Actions;
@@ -61,11 +62,32 @@ namespace GDQScrapper
 
             var eventsFromRepository = getAllEvents.Execute();
 
+            List<Event> eventsToExport = new List<Event>();
             if (eventsFromRepository.Count == 0)
+            {
+                Console.WriteLine("Create Repository");
                 saveEvents.Execute(eventsFromWeb);
+                eventsToExport = eventsFromWeb;
+            }
+            else
+            {
+                Console.WriteLine("Get Favorites Events");
+                var favoritesEvents = eventsFromRepository.Where(repositoryEvent => repositoryEvent.FavoriteState.IsFavorite).ToList();
 
-            exportToAppleEvents.Excecute(eventsFromWeb, GDQEventName);
-            displayEvents.Excecute("-- " + GDQEventName + " ---", eventsFromWeb);
+                foreach (var favoritesEvent in favoritesEvents)
+                {
+                    foreach (var eventFromWeb in eventsFromWeb)
+                    {
+                        if (favoritesEvent.Equals(eventFromWeb))
+                            eventsToExport.Add(eventFromWeb);
+                    }
+                }
+
+                // TODO Update Repository
+            }
+
+            exportToAppleEvents.Excecute(eventsToExport, GDQEventName);
+            displayEvents.Excecute("-- " + GDQEventName + " ---", eventsToExport);
 
             Console.WriteLine("Finished");
         }

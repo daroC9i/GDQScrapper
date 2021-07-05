@@ -16,7 +16,7 @@ namespace GDQScrapper.Export.Infrastructure.Repositories
         private StringBuilder stringBuilder = new StringBuilder();
         private StringBuilder stringEventsBuilder = new StringBuilder();
 
-        private const string SEPARATOR = ";";
+        private const string SEPARATOR = "·";
         private const string NEWLINE = "\n";
 
         private const string FILE_EXTENSION = "csv";

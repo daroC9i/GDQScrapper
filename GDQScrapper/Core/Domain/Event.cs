@@ -1,4 +1,6 @@
-﻿using GDQScrapper.Core.Domain.EventData;
+﻿using System;
+using System.Collections.Generic;
+using GDQScrapper.Core.Domain.EventData;
 
 namespace GDQScrapper.Core.Domain
 {
@@ -40,6 +42,17 @@ namespace GDQScrapper.Core.Domain
             EventDuration = eventDuration;
             Game = game;
             FavoriteState = favoriteState;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Event @event &&
+                   EqualityComparer<EventId>.Default.Equals(EventId, @event.EventId);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(EventId);
         }
     }
 }
