@@ -96,6 +96,9 @@ namespace GDQScrapper.Export.Infrastructure.Repositories
             stringBuilder.Append(SEPARATOR);
 
             stringBuilder.Append(eventToConvert.Hosts);
+            stringBuilder.Append(SEPARATOR);
+
+            stringBuilder.Append(eventToConvert.FavoriteState);
 
             return stringBuilder.ToString();
         }
@@ -104,7 +107,7 @@ namespace GDQScrapper.Export.Infrastructure.Repositories
         {
             var eventStringLineSplited = eventStringLine.Split(SEPARATOR);
 
-            if (eventStringLineSplited.Length != 10)
+            if (eventStringLineSplited.Length != 11)
                 throw new InvalidEventImportException();
 
             var id = new EventId(eventStringLineSplited[0]);
@@ -117,9 +120,10 @@ namespace GDQScrapper.Export.Infrastructure.Repositories
             var condition = new Condition(eventStringLineSplited[7]);
             var gamePlatform = new GamePlatform(eventStringLineSplited[8]);
             var hostsName = new Hosts(eventStringLineSplited[9]);
+            var favoriteState = new FavoriteState(bool.Parse(eventStringLineSplited[10]));
 
             return new Event(id, startDateTime, gameName, runnersName, setupLenghtDuration,
-                eventDuration, endDateTime, condition, gamePlatform, hostsName);
+                eventDuration, endDateTime, condition, gamePlatform, hostsName, favoriteState);
         }
     }
 }

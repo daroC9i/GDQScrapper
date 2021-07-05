@@ -17,6 +17,8 @@ namespace Tests.Builders
         private Condition condition = new Condition("SomeCondition");
         private GamePlatform gamePlatform = new GamePlatform("SomeGamePlatform");
 
+        private FavoriteState favoriteState = new FavoriteState();
+
         private List<Runner> runnersList;
         private List<Host> hostsList;
 
@@ -69,8 +71,8 @@ namespace Tests.Builders
             runners = new Runners(runnersList.ToArray());
             hosts = new Hosts(hostsList.ToArray());
 
-            return new Event(eventId, startDateTime, game, runners,
-                setupDateTime, duration, endDateTime, condition, gamePlatform, hosts);
+            return new Event(eventId, startDateTime, game, runners, setupDateTime,
+                duration, endDateTime, condition, gamePlatform, hosts, favoriteState);
         }
     }
 }

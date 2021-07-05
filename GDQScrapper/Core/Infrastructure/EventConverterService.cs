@@ -35,7 +35,10 @@ namespace GDQScrapper.Core.Infrastructure
 
             var endTime = new EndEventDateTime(startEventDateTime.DateTime.Add(eventDuration.TimeSpan));
 
-            return new Event(eventId, startEventDateTime, game, runners, setupLenghtDuration, eventDuration, endTime, condition, gamePlatform, hosts);
+            var favortiteState = new FavoriteState();
+
+            return new Event(eventId, startEventDateTime, game, runners, setupLenghtDuration,
+                eventDuration, endTime, condition, gamePlatform, hosts, favortiteState);
         }
 
         private Runners ConvertToRunners(string runnersRaw)

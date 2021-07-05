@@ -14,6 +14,7 @@ namespace GDQScrapper.Core.Domain
         public Condition Condition { get; }
         public GamePlatform GamePlatform { get; }
         public Hosts Hosts { get; }
+        public FavoriteState FavoriteState { get; private set; }
 
         public Event(
             EventId eventId,
@@ -25,7 +26,8 @@ namespace GDQScrapper.Core.Domain
             EndEventDateTime endDateTime,
             Condition condition,
             GamePlatform gamePlatform,
-            Hosts host)
+            Hosts host,
+            FavoriteState favoriteState)
         {
             EventId = eventId;
             StartDateTime = startDateTime;
@@ -37,6 +39,7 @@ namespace GDQScrapper.Core.Domain
             SetupLenght = setupLenght;
             EventDuration = eventDuration;
             Game = game;
+            FavoriteState = favoriteState;
         }
     }
 }
