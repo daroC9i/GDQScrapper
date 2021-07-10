@@ -47,6 +47,7 @@ namespace GDQScrapper
             ExportToAppleEvents exportToAppleEvents = new ExportToAppleEvents(eventsService);
             GetAllEvents getAllEvents = new GetAllEvents(eventsRepositoryService);
             SaveEvents saveEvents = new SaveEvents(eventsRepositoryService);
+            ExportHtmlRaw exportHtmlRaw = new ExportHtmlRaw();
 
             IEventConverterService eventConverterService = new EventConverterService();
             ConvertToEvent convertToEvent = new ConvertToEvent(eventConverterService);
@@ -54,6 +55,7 @@ namespace GDQScrapper
             // ------
 
             var info = scrapper.Excecute("https://gamesdonequick.com/schedule");
+            exportHtmlRaw.Execute(info);
             var raeEvents = processHtmlInfo.Excecute(info);
 
             List<Event> eventsFromWeb = new List<Event>();
