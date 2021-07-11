@@ -10,6 +10,7 @@ using GDQScrapper.Displayer.Actions;
 using GDQScrapper.Displayer.Views;
 using GDQScrapper.Export.Actions;
 using GDQScrapper.Export.Infrastructure;
+using GDQScrapper.Export.Infrastructure.Exporters;
 using GDQScrapper.Export.Infrastructure.Repositories;
 using GDQScrapper.GDQProcessor.Actions;
 using GDQScrapper.GDQProcessor.Domain;
@@ -42,12 +43,13 @@ namespace GDQScrapper
             DisplayTableOfEvents displayEvents = new DisplayTableOfEvents(tableView);
 
             IFileWriteService fileWriteService = new DotNetFileWriteService();
+            IHtmlRawExporterService htmlRawExpoerterService = new HtmlRawExporterService(fileWriteService);
             IEventsRepositoryService eventsRepositoryService = new CsvEventsRepository(fileWriteService);
             AppleEventsService eventsService = new AppleEventsService(fileWriteService);
             ExportToAppleEvents exportToAppleEvents = new ExportToAppleEvents(eventsService);
             GetAllEvents getAllEvents = new GetAllEvents(eventsRepositoryService);
             SaveEvents saveEvents = new SaveEvents(eventsRepositoryService);
-            ExportHtmlRaw exportHtmlRaw = new ExportHtmlRaw();
+            ExportHtmlRaw exportHtmlRaw = new ExportHtmlRaw(htmlRawExpoerterService);
 
             IEventConverterService eventConverterService = new EventConverterService();
             ConvertToEvent convertToEvent = new ConvertToEvent(eventConverterService);

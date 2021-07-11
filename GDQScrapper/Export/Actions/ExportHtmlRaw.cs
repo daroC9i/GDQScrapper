@@ -1,16 +1,19 @@
-﻿using System;
-using GDQScrapper.Export.Infrastructure;
+﻿using GDQScrapper.Calendar.Domain;
 
 namespace GDQScrapper.Export.Actions
 {
     public class ExportHtmlRaw
     {
-        private DotNetFileWriteService dotNetFileWriteService = new DotNetFileWriteService();
+        private readonly IHtmlRawExporterService htmlRawExporterService;
+
+        public ExportHtmlRaw(IHtmlRawExporterService htmlRawExporterService)
+        {
+            this.htmlRawExporterService = htmlRawExporterService;
+        }
 
         public void Execute(string raw)
         {
-            dotNetFileWriteService.ExportToFile(raw, "htmlraw", "html");
+            htmlRawExporterService.Export(raw);
         }
-
     }
 }
